@@ -41,7 +41,7 @@ public class SignupServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        // Разрыв существующей сессии, пока нет csrf
+        // Разрыв существующей сессии
         String sessionId = request.getSession().getId();
         if (accountService.sessionsContainsKey(sessionId)) {
             accountService.deleteSession(sessionId);
