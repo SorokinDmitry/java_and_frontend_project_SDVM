@@ -24,12 +24,14 @@ public class LogoutServlet extends HttpServlet {
         String sessionId = request.getSession().getId();
         if (accountService.sessionsContainsKey(sessionId)) {
             accountService.deleteSession(sessionId);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
         // Формирование ответа
         response.sendRedirect("/main");
         response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     public void doPost(HttpServletRequest request,

@@ -41,9 +41,9 @@ public class Main {
         context.addServlet(new ServletHolder(signupServlet), "/auth/signup");
         context.addServlet(new ServletHolder(signinServlet), "/auth/signin");
         context.addServlet(new ServletHolder(logoutServlet), "/auth/logout");
-        context.addServlet(new ServletHolder(mainServlet), "/main");
+        context.addServlet(new ServletHolder(mainServlet),   "/main");
         context.addServlet(new ServletHolder(profileServlet), "/profile");
-        context.addServlet(new ServletHolder(adminServlet), "/admin");
+        context.addServlet(new ServletHolder(adminServlet),   "/admin");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

@@ -24,17 +24,24 @@ public class SignupServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        // Формирование формы
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("error", "Registration Form");
-        response.getWriter().println(PageGenerator.getPage("signup.html", pageVariables));
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        // Проверка существования сессии
+        String sessionId = request.getSession().getId();
+        if (accountService.sessionsContainsKey(sessionId)) {
+            response.sendRedirect("/main");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        } else {
+            // Формирование формы
+            Map<String, Object> pageVariables = new HashMap<>();
+            pageVariables.put("error", "Registration Form");
+            response.getWriter().println(PageGenerator.getPage("signup.html", pageVariables));
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        // Разрыв существующей сессии
+        // Разрыв существующей сессии, пока нет csrf
         String sessionId = request.getSession().getId();
         if (accountService.sessionsContainsKey(sessionId)) {
             accountService.deleteSession(sessionId);
@@ -42,12 +49,13 @@ public class SignupServlet extends HttpServlet {
 
         // Чтение формы
         String login = request.getParameter("login");
+        login = login.trim();
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
         // Обработка запроса + формирование ответа
         Map<String, Object> pageVariables = new HashMap<>();
-        if (login == null || accountService.usersContainsKey(login)) {
+        if (login.equals("") || accountService.usersContainsKey(login)) {
             pageVariables.put("error", "uncurrect login");
             response.getWriter().println(PageGenerator.getPage("signup.html", pageVariables));
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

@@ -37,7 +37,6 @@ public class AdminPageServlet extends HttpServlet {
                 System.out.print("Server will be down after: "+ timeMS + " ms");
                 TimeHelper.sleep(timeMS);
                 System.out.print("\nShutdown");
-                response.sendRedirect("/main");
                 System.exit(0);
             } else {
                 pageVariables.put("login", login);

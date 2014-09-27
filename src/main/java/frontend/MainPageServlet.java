@@ -23,16 +23,16 @@ public class MainPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+        Map<String, Object> pageVariables = new HashMap<>();
         // Получение логина активного пользователя
         String sessionId = request.getSession().getId();
         String login = null;
         if (accountService.sessionsContainsKey(sessionId)) {
             login = accountService.getUserProfileBySessionId(sessionId).getLogin();
+            pageVariables.put("login", login);
         }
 
         // Формирование формы
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("login", login);
         response.getWriter().println(PageGenerator.getPage("main.html", pageVariables));
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);

@@ -30,7 +30,7 @@ public class ProfileServlet extends HttpServlet {
             login = accountService.getUserProfileBySessionId(sessionId).getLogin();
         }
         if (login == null) {
-            response.sendRedirect("/auth/signup");
+            response.sendRedirect("/auth/signin");
         } else {
             Map<String, Object> pageVariables = new HashMap<>();
             pageVariables.put("login", login);

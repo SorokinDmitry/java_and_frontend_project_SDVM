@@ -23,23 +23,24 @@ public class SigninServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        // Разрыв существующей сессии
+        // Проверка существования сессии
         String sessionId = request.getSession().getId();
         if (accountService.sessionsContainsKey(sessionId)) {
-            accountService.deleteSession(sessionId);
+            response.sendRedirect("/main");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        } else {
+            // Формирование формы
+            Map<String, Object> pageVariables = new HashMap<>();
+            pageVariables.put("error", "Enter yor login and password");
+            response.getWriter().println(PageGenerator.getPage("signin.html", pageVariables));
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
         }
-
-        // Формирование формы
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("error", "Enter yor login and password");
-        response.getWriter().println(PageGenerator.getPage("signin.html", pageVariables));
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        // Разрыв существующей сессии
+        // Разрыв существующей сессии, пока нет csrf
         String sessionId = request.getSession().getId();
         if (accountService.sessionsContainsKey(sessionId)) {
             accountService.deleteSession(sessionId);
@@ -53,7 +54,7 @@ public class SigninServlet extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         if (accountService.usersContainsKey(login)) {
             if (password.equals(accountService.getPasswordByLogin(login))) {
-                accountService.addSession(request.getSession().getId(), login);
+                accountService.addSession(sessionId, login);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.sendRedirect("/main");
             } else {
