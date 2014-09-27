@@ -20,6 +20,9 @@ public class Main {
         if (args.length == 1) {
             String portString = args[0];
             port = Integer.valueOf(portString);
+        } else {
+            System.out.append("Use port as the first argument");
+            System.exit(1);
         }
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
