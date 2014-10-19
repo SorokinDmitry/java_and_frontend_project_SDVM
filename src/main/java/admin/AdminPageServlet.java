@@ -1,8 +1,8 @@
 package admin;
 
-import main.AccountService;
-import main.TimeHelper;
-import templater.PageGenerator;
+import base.AccountService;
+import utils.TimeHelper;
+import utils.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +29,7 @@ public class AdminPageServlet extends HttpServlet {
             // Получение логина активного пользователя
             String sessionId = request.getSession().getId();
             String login = null;
-            if (accountService.sessionsContainsKey(sessionId)) {
+            if (accountService.haveSession(sessionId)) {
                 login = accountService.getUserProfileBySessionId(sessionId).getLogin();
             }
             if ( login != null && login.equals("admin")) {

@@ -6,7 +6,12 @@
 </head>
 <body>
 
-<p>${error}</p>
+<#if text?? >
+	<p>${text}<p>
+</#if>
+<#if error?? >
+	<p style="color: red">${error}<p>
+</#if>
 
 <form action="/auth/signup" method="POST">
 	<p>E-mail: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp		<input type="text" name="email"/></p>

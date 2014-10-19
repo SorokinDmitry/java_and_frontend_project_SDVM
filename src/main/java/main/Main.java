@@ -1,6 +1,8 @@
 package main;
 
 import admin.*;
+import base.AccountService;
+import base.AccountServiceImpl;
 import frontend.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -27,14 +29,14 @@ public class Main {
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        AccountService accountService = new AccountService();
+        AccountService accountService = new AccountServiceImpl();
 
-        Servlet signupServlet = new SignupServlet(accountService);
-        Servlet signinServlet = new SigninServlet(accountService);
-        Servlet mainServlet = new MainPageServlet(accountService);
-        Servlet logoutServlet = new LogoutServlet(accountService);
+        Servlet signupServlet = new SignupServletImpl(accountService);
+        Servlet signinServlet = new SigninServletImpl(accountService);
+        Servlet mainServlet = new MainPageServletImpl(accountService);
+        Servlet logoutServlet = new LogoutServletImpl(accountService);
         Servlet adminServlet = new AdminPageServlet(accountService);
-        Servlet profileServlet = new ProfileServlet(accountService);
+        Servlet profileServlet = new ProfileServletImpl(accountService);
 
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
