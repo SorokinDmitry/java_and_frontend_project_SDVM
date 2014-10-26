@@ -2,7 +2,6 @@ package frontend;
 
 import base.AccountService;
 import utils.UserProfile;
-import utils.UserProfileImpl;
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -61,7 +60,7 @@ public class SignupServletImpl extends HttpServlet {
             response.getWriter().println(PageGenerator.getPage("signup.html", pageVariables));
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } else {
-            UserProfile profile = new UserProfileImpl(login, password, email);
+            UserProfile profile = new UserProfile(login, password, email);
             accountService.addUser(profile);
             accountService.addSession(sessionId, login);
             response.sendRedirect("/main");
