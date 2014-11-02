@@ -15,8 +15,32 @@ public class AccountServiceTest {
         accountService = new AccountServiceImpl();
     }
 
+    private UserProfile[] addUsers(int cnt) {
+        UserProfile[] userProfiles = new UserProfile[cnt];
+        for (Integer i = 0; i < cnt; i++) {
+            String username = "user";
+            username += i.toString();
+            String password = "pass";
+            password += i.toString();
+            String email = "email";
+            email += i.toString() + "@mail.ru";
+            userProfiles[i] = new UserProfile(username, password, email);
+            accountService.addUser(userProfiles[i]);
+        }
+        return userProfiles;
+    }
+
+    private Integer[] addSessions(UserProfile[] userProfiles, int cnt) {
+        Integer[] sessions = new Integer[cnt];
+        for (Integer i = 0; i < cnt; i++) {
+            sessions[i] = i;
+            accountService.addSession(sessions[i].toString(), userProfiles[i].getLogin());
+        }
+        return sessions;
+    }
+
     @Test
-    public void testCountOfUsersCountOfSessions() throws Exception {
+    public void testCountOfUsers() throws Exception {
         UserProfile user1 = new UserProfile("login1", "password1", "email1");
         UserProfile user2 = new UserProfile("login2", "password2", "email2");
         int before = accountService.getCountOfUsers();
@@ -24,24 +48,23 @@ public class AccountServiceTest {
         assertEquals(1, accountService.getCountOfUsers() - before);
         accountService.addUser(user2);
         assertEquals(2, accountService.getCountOfUsers() - before);
-        before = accountService.getCountOfSessions();
-        accountService.addSession("434","login1");
+    }
+
+    @Test
+    public void testCountOfSessions() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        int before = accountService.getCountOfSessions();
+        accountService.addSession("434",userProfiles[0].getLogin());
         assertEquals(1, accountService.getCountOfSessions() - before);
-        accountService.addSession("476576","login2");
+        accountService.addSession("476576",userProfiles[1].getLogin());
         assertEquals(2, accountService.getCountOfSessions() - before);
     }
 
     @Test
-    public void testAddUserHaveUser() throws Exception {
-        UserProfile user1 = new UserProfile("logindffhjtf", "password1", "email1");
-        UserProfile user2 = new UserProfile("logindffhjtf", "password2", "email2");
-        int before = accountService.getCountOfUsers();
-        assertEquals(false, accountService.haveUser("logindffhjtf"));
-        accountService.addUser(user1);
-        accountService.addUser(user2);
-        assertEquals(true, accountService.haveUser("logindffhjtf"));
-        int after = accountService.getCountOfUsers();
-        assertEquals(1, after - before);
+    public void testHaveUser() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        assertEquals(true, accountService.haveUser(userProfiles[0].getLogin()));
+        assertEquals(true, accountService.haveUser(userProfiles[1].getLogin()));
     }
 
     @Test
@@ -60,80 +83,101 @@ public class AccountServiceTest {
 
     @Test
     public void testAddRegisteredUserSession() throws Exception {
-        UserProfile user = new UserProfile("logindffhjtf", "password", "email");
-        accountService.addUser(user);
+        UserProfile[] userProfiles = addUsers(1);
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", "logindffhjtf");
+        addSessions(userProfiles, 1);
         int after = accountService.getCountOfSessions();
         assertEquals(1, after - before);
     }
 
     @Test
     public void testAddUnregisteredUserSession() throws Exception {
-        assertEquals(false, accountService.haveUser("logind677hjtf"));
+        String unregisteredLogin = "logind677hjtf";
+        assertEquals(false, accountService.haveUser(unregisteredLogin));
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", "logind677hjtf");
+        accountService.addSession("1", unregisteredLogin);
         int after = accountService.getCountOfSessions();
         assertEquals(0, after - before);
     }
 
     @Test
     public void testAddSameIdSession() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", "login");
-        accountService.addSession("1", "login2");
+        accountService.addSession("1", userProfiles[0].getLogin());
+        accountService.addSession("1", userProfiles[1].getLogin());
         int after = accountService.getCountOfSessions();
         assertEquals(1, after - before);
     }
 
     @Test
     public void testAddSameLoginSession() throws Exception {
+        UserProfile[] userProfiles = addUsers(1);
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", "login");
-        accountService.addSession("2", "login");
+        accountService.addSession("1", userProfiles[0].getLogin());
+        accountService.addSession("2", userProfiles[0].getLogin());
         int after = accountService.getCountOfSessions();
         assertEquals(1, after - before);
     }
 
     @Test
-    public void testHaveSessionDeleteSession() throws Exception {
-        UserProfile user1 = new UserProfile("login1", "password1", "email1");
-        UserProfile user2 = new UserProfile("login2", "password2", "email2");
-        accountService.addUser(user1);
-        accountService.addUser(user2);
-        accountService.addSession("44634", "login1");
-        accountService.addSession("68548", "login2");
-        assertEquals(true, accountService.haveSession("44634"));
-        assertEquals(true, accountService.haveSession("68548"));
-        int before = accountService.getCountOfSessions();
-        accountService.deleteSession("68548");
-        int after = accountService.getCountOfSessions();
-        assertEquals(-1, after - before);
-        assertEquals(true, accountService.haveSession("44634"));
-        assertEquals(false, accountService.haveSession("68548"));
+    public void testHaveSession() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        Integer[] sessions = addSessions(userProfiles, 2);
+        assertEquals(true, accountService.haveSession(sessions[0].toString()));
+        assertEquals(true, accountService.haveSession(sessions[1].toString()));
+    }
+
+    @Test
+    public void testDeleteSession() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        Integer[] sessions = addSessions(userProfiles, 2);
+        accountService.deleteSession(sessions[1].toString());
+        assertEquals(false, accountService.haveSession(sessions[1].toString()));
     }
 
     @Test
     public void testCorrectPassword() throws Exception {
-        UserProfile user = new UserProfile("login", "password", "email");
-        accountService.addUser(user);
-        assertEquals(false, accountService.isPasswordCorrect("login","pass"));
-        assertEquals(true, accountService.isPasswordCorrect("login","password"));
+        UserProfile[] userProfiles = addUsers(1);
+        assertEquals(true, accountService.isPasswordCorrect(userProfiles[0].getLogin(),userProfiles[0].getPassword()));
     }
 
     @Test
-    public void testGetUserProfile() throws Exception {
-        UserProfile user1 = new UserProfile("login1", "password1", "email1");
-        UserProfile user2 = new UserProfile("login2", "password2", "email2");
-        accountService.addUser(user1);
-        accountService.addUser(user2);
-        accountService.addSession("esery546","login1");
-        accountService.addSession("esesttrtu546","login2");
-        assertEquals(user1,accountService.getUserProfileByLogin("login1"));
-        assertEquals(user2,accountService.getUserProfileByLogin("login2"));
-        assertEquals(null,accountService.getUserProfileByLogin("loginbnfgjnfgxcvcxbnm"));
-        assertEquals(user1,accountService.getUserProfileBySessionId("esery546"));
-        assertEquals(user2,accountService.getUserProfileBySessionId("esesttrtu546"));
-        assertEquals(null,accountService.getUserProfileBySessionId("dfhjk.,mnbvghj"));
+    public void testUnCorrectPassword() throws Exception {
+        UserProfile[] userProfiles = addUsers(1);
+        String uncorrectPass= userProfiles[0].getPassword()+"fsdfs";
+        assertEquals(false, accountService.isPasswordCorrect(userProfiles[0].getLogin(),uncorrectPass));
+    }
+
+    @Test
+    public void testGetUserProfileByCorrectLogin() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        Integer[] sessions = addSessions(userProfiles, 2);
+        assertEquals(userProfiles[0],accountService.getUserProfileByLogin(userProfiles[0].getLogin()));
+        assertEquals(userProfiles[1],accountService.getUserProfileByLogin(userProfiles[1].getLogin()));
+    }
+
+    @Test
+    public void testGetUserProfileByUncorrectLogin() throws Exception {
+        UserProfile[] userProfiles = addUsers(1);
+        Integer[] sessions = addSessions(userProfiles, 1);
+        String uncorrectLogin = userProfiles[0].getLogin()+"123";
+        assertEquals(null,accountService.getUserProfileByLogin(uncorrectLogin));
+    }
+
+    @Test
+    public void testGetUserProfileByCorrectSessionId() throws Exception {
+        UserProfile[] userProfiles = addUsers(2);
+        Integer[] sessions = addSessions(userProfiles, 2);
+        assertEquals(userProfiles[0],accountService.getUserProfileBySessionId(sessions[0].toString()));
+        assertEquals(userProfiles[1],accountService.getUserProfileBySessionId(sessions[1].toString()));
+    }
+
+    @Test
+    public void testGetUserProfileByUncorrectSessionId() throws Exception {
+        UserProfile[] userProfiles = addUsers(1);
+        Integer[] sessions = addSessions(userProfiles, 1);
+        String uncorrectSessionId = sessions[0].toString()+"123";
+        assertEquals(null,accountService.getUserProfileBySessionId(uncorrectSessionId));
     }
 }
