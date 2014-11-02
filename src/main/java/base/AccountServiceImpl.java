@@ -1,7 +1,6 @@
 package base;
 
 import utils.UserProfile;
-import utils.UserProfileImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +13,8 @@ public class AccountServiceImpl implements AccountService {
     private Map<String, UserProfile> sessions = new HashMap<String, UserProfile>();
 
     public AccountServiceImpl() {
-        addUser(new UserProfileImpl("admin","admin","admin@admin.ru"));
-        addUser(new UserProfileImpl("dmitr","","sorokin.dmitr@yandex.ru"));
+        addUser(new UserProfile("admin","admin","admin@admin.ru"));
+        addUser(new UserProfile("dmitr","","sorokin.dmitr@yandex.ru"));
     }
 
     public void addUser(UserProfile user) {
