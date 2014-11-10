@@ -33,10 +33,4 @@ public class LogoutServletImpl extends HttpServlet {
         response.sendRedirect("/main");
         response.setContentType("text/html;charset=utf-8");
     }
-
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("POST");
-        response.setContentType("text/html;charset=utf-8");
-    }
 }

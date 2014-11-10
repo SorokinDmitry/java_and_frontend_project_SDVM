@@ -1,7 +1,7 @@
 package base;
 
 import utils.UserProfile;
-import utils.UserProfileImpl;
+import utils.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,19 +11,33 @@ import java.util.Map;
  */
 public class AccountServiceImpl implements AccountService {
     private Map<String, UserProfile> users = new HashMap<String, UserProfile>();
+    private Map<String, String> usersId = new HashMap<String, String>();
     private Map<String, UserProfile> sessions = new HashMap<String, UserProfile>();
 
     public AccountServiceImpl() {
-        addUser(new UserProfileImpl("admin","admin","admin@admin.ru"));
-        addUser(new UserProfileImpl("dmitr","","sorokin.dmitr@yandex.ru"));
+        addUser(new UserProfile("admin","admin","admin@admin.ru"));
+        addUser(new UserProfile("dmitr","123","sorokin.dmitr@yandex.ru"));
     }
 
-    public void addUser(UserProfile user) {
-        this.users.put(user.getLogin(), user);
+    public boolean addUser(UserProfile user) {
+        if ( user.getLogin().equals("") || user.getPassword().equals("") || user.getEmail().equals("") ) {
+            return false;
+        } else {
+            this.users.put(user.getLogin(), user);
+            return true;
+        }
     }
 
-    public void addSession(String id, String login) {
+    public boolean addSession(String id, String login) {
+        if ( !users.containsKey(login) )
+            return false;
+        if ( this.usersId.containsKey(login) ) {
+            this.sessions.remove(this.usersId.get(login));
+            this.usersId.remove(login);
+        }
         this.sessions.put(id, users.get(login));
+        this.usersId.put(login, id);
+        return true;
     }
 
     public int getCountOfUsers() {

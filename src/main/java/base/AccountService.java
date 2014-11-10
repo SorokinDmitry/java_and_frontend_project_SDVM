@@ -6,8 +6,8 @@ import utils.UserProfile;
  * Created by Dmitry on 019 19.10.14.
  */
 public interface AccountService {
-    public void addUser(UserProfile user);
-    public void addSession(String id, String login);
+    public boolean addUser(UserProfile user);
+    public boolean addSession(String id, String login);
     public int getCountOfUsers();
     public int getCountOfSessions();
     public void deleteSession(String id);
