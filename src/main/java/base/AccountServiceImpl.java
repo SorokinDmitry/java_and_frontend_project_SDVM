@@ -1,7 +1,10 @@
 package base;
 
 import utils.UserProfile;
+<<<<<<< HEAD
 import utils.UserProfile;
+=======
+>>>>>>> origin/master
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +19,11 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceImpl() {
         addUser(new UserProfile("admin","admin","admin@admin.ru"));
+<<<<<<< HEAD
         addUser(new UserProfile("dmitr","123","sorokin.dmitr@yandex.ru"));
+=======
+        addUser(new UserProfile("dmitr","","sorokin.dmitr@yandex.ru"));
+>>>>>>> origin/master
     }
 
     public boolean addUser(UserProfile user) {

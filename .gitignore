@@ -14,12 +14,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+*~
+
 # =========================
 # Operating System Files
 # =========================
 
 # OSX
-# =========================
+# ========================= 
 
 .DS_Store
 .AppleDouble
@@ -44,6 +46,6 @@ Temporary Items
 
 # Project
 node_modules
+
 node.exe
 .idea
-*.class
