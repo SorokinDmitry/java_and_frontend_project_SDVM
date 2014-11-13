@@ -1,8 +1,11 @@
 package frontend;
 
 import base.AccountService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import utils.UserProfile;
+
 import javax.servlet.http.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -16,7 +19,7 @@ public class ProfileServletImplTest {
     final private static HttpServletResponse response = mock(HttpServletResponse.class);
     final private static HttpSession httpSession = mock(HttpSession.class);
     final private static AccountService accountService = mock(AccountService.class);
-    private MainPageServletImpl mainPageServlet = new MainPageServletImpl(accountService);
+    private ProfileServletImpl profileServlet= new ProfileServletImpl(accountService);
     final StringWriter stringWrite = new StringWriter();
     final PrintWriter writer = new PrintWriter(stringWrite);
 
@@ -34,6 +37,26 @@ public class ProfileServletImplTest {
 
     @Test
     public void testDoGetHaveSessionTrue() throws Exception {
+        when(accountService.haveSession("sessionId")).thenReturn(true);
+        UserProfile userProfile = mock(UserProfile.class);
+        when(accountService.getUserProfileBySessionId("sessionId")).thenReturn(userProfile);
+        when(userProfile.getLogin()).thenReturn("login1");
+        when(accountService.getUserProfileByLogin("login1")).thenReturn(userProfile);
+        when(userProfile.getEmail()).thenReturn("email@mail.ru");
+        profileServlet.doGet(request,response);
+        check();
+        String st = stringWrite.toString();
+        //System.out.append(st);
+        //Assert.assertTrue(st.contains("<!DOCTYPE html>"));
+        Assert.assertTrue(st.contains("login1"));
+        Assert.assertTrue(st.contains("email@mail.ru"));
+    }
 
+    @Test
+    public void testDoGetHaveSessionFalse() throws Exception {
+        when(accountService.haveSession("sessionId")).thenReturn(false);
+        profileServlet.doGet(request,response);
+        //check();
+        verify(response).sendRedirect("/auth/signin");
     }
 }
