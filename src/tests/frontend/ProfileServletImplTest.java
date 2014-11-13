@@ -33,7 +33,7 @@ public class ProfileServletImplTest {
     }
 
     @Test
-    public void testDoGet() throws Exception {
+    public void testDoGetHaveSessionTrue() throws Exception {
 
     }
 }
