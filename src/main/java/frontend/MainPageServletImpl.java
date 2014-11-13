@@ -32,15 +32,8 @@ public class MainPageServletImpl extends HttpServlet {
             pageVariables.put("login", login);
         }
 
-        // Формирование формы
         response.getWriter().println(PageGenerator.getPage("main.html", pageVariables));
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-    }
-
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("POST");
-        response.setContentType("text/html;charset=utf-8");
     }
 }

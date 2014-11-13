@@ -25,4 +25,8 @@ public class UserProfile {
     public String getEmail() {
         return email;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
