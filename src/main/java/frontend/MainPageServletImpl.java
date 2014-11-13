@@ -23,7 +23,7 @@ public class MainPageServletImpl extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
+        Map<String, Object> pageVariables = new HashMap<String, Object>();
         // Получение логина активного пользователя
         String sessionId = request.getSession().getId();
         String login = null;

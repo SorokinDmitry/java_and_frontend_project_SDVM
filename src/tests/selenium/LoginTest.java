@@ -9,6 +9,9 @@ package selenium;
         import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginTest  {
+    public void main(String[] args) throws Exception {
+        testLogin("localhost:8080/auth/signin", "dmitr", "");
+    }
     public void testLogin(@NotNull String url,@NotNull String username,@NotNull String password) {
         WebDriver driver = new HtmlUnitDriver(true);
         driver.get(url);

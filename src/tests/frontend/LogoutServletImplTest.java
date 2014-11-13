@@ -3,41 +3,44 @@ package frontend;
 import base.AccountService;
 import org.junit.Before;
 import org.junit.Test;
-import utils.UserProfile;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import static org.junit.Assert.*;
+import javax.servlet.http.*;
+import static org.mockito.Mockito.*;
 
 public class LogoutServletImplTest {
-    static class AccountService1 implements AccountService {
-        public void addUser(UserProfile user){}
-        public void addSession(String id, String login){}
-        public int getCountOfUsers(){return 1;}
-        public int getCountOfSessions(){return 2;}
-        public void deleteSession(String id){}
-        public boolean haveSession(String id){return true;}
-        public boolean haveUser(String login){return true;}
-        public boolean isPasswordCorrect(String login, String password){return true;}
-        public UserProfile getUserProfileByLogin(String login){return new UserProfile("login", "password", "email");}
-        public UserProfile getUserProfileBySessionId(String id){return new UserProfile("login", "password", "email");}
+    final private static HttpServletRequest request = mock(HttpServletRequest.class);
+    final private static HttpServletResponse response = mock(HttpServletResponse.class);
+    final private static HttpSession httpSession = mock(HttpSession.class);
+    final private static AccountService accountService = mock(AccountService.class);
+    private LogoutServletImpl logoutServlet = new LogoutServletImpl(accountService);
+
+    @Before
+    public void setUp() throws Exception {
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getId()).thenReturn("sessionId");
     }
-    static class AccountService2 extends AccountService1 {
-        @Override
-        public boolean haveSession(String id){return false;}
-    }
-    private HttpServlet logoutServlet;
 
     @Test
     public void testDoPostHaveSessionTrue() throws Exception {
-        logoutServlet = new LogoutServletImpl(new AccountService1());
-        //HttpServletRequest request = new HttpServletRequestWrapper()
+        when(accountService.haveSession("sessionId")).thenReturn(true);
+
+        logoutServlet.doPost(request, response);
+        verify(accountService).deleteSession("sessionId");
+        verify(response).setStatus(HttpServletResponse.SC_OK);
+        verify(response).sendRedirect("/main");
+        verify(response).setContentType("text/html;charset=utf-8");
+
     }
 
     @Test
     public void testDoPostHaveSessionFalse() throws Exception {
-        logoutServlet = new LogoutServletImpl(new AccountService2());
+
+        when(accountService.haveSession("sessionId")).thenReturn(false);
+
+        logoutServlet.doPost(request, response);
+
+        verify(accountService, never()).deleteSession("sessionId");
+        verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+        verify(response).sendRedirect("/main");
+        verify(response).setContentType("text/html;charset=utf-8");
     }
 }
