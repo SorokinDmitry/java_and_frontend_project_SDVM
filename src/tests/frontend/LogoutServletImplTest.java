@@ -13,18 +13,20 @@ public class LogoutServletImplTest {
     final private static AccountService accountService = mock(AccountService.class);
     private LogoutServletImpl logoutServlet = new LogoutServletImpl(accountService);
 
+    private String sessionId = "sessionId";
+
     @Before
     public void setUp() throws Exception {
         when(request.getSession()).thenReturn(httpSession);
-        when(httpSession.getId()).thenReturn("sessionId");
+        when(httpSession.getId()).thenReturn(sessionId);
     }
 
     @Test
     public void testDoPostHaveSessionTrue() throws Exception {
-        when(accountService.haveSession("sessionId")).thenReturn(true);
+        when(accountService.haveSession(sessionId)).thenReturn(true);
 
         logoutServlet.doPost(request, response);
-        verify(accountService).deleteSession("sessionId");
+        verify(accountService).deleteSession(sessionId);
         verify(response).setStatus(HttpServletResponse.SC_OK);
         verify(response).sendRedirect("/main");
         verify(response).setContentType("text/html;charset=utf-8");
@@ -34,11 +36,11 @@ public class LogoutServletImplTest {
     @Test
     public void testDoPostHaveSessionFalse() throws Exception {
 
-        when(accountService.haveSession("sessionId")).thenReturn(false);
+        when(accountService.haveSession(sessionId)).thenReturn(false);
 
         logoutServlet.doPost(request, response);
 
-        verify(accountService, never()).deleteSession("sessionId");
+        verify(accountService, never()).deleteSession(sessionId);
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
         verify(response).sendRedirect("/main");
         verify(response).setContentType("text/html;charset=utf-8");

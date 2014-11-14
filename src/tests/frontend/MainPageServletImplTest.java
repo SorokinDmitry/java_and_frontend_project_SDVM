@@ -23,6 +23,9 @@ public class MainPageServletImplTest {
     final StringWriter stringWrite = new StringWriter();
     final PrintWriter writer = new PrintWriter(stringWrite);
 
+    private String sessionId = "sessionId";
+    private String login = "login1";
+
     private void check(){
         verify(response).setContentType("text/html;charset=utf-8");
         verify(response).setStatus(HttpServletResponse.SC_OK);
@@ -31,30 +34,30 @@ public class MainPageServletImplTest {
     @Before
     public void setUp() throws Exception {
         when(request.getSession()).thenReturn(httpSession);
-        when(httpSession.getId()).thenReturn("sessionId");
+        when(httpSession.getId()).thenReturn(sessionId);
         when(response.getWriter()).thenReturn(writer);
     }
 
     @Test
     public void testDoGetHaveSessionTrue() throws Exception {
-        when(accountService.haveSession("sessionId")).thenReturn(true);
+        when(accountService.haveSession(sessionId)).thenReturn(true);
         UserProfile userProfile = mock(UserProfile.class);
-        when(accountService.getUserProfileBySessionId("sessionId")).thenReturn(userProfile);
-        when(userProfile.getLogin()).thenReturn("login1");
+        when(accountService.getUserProfileBySessionId(sessionId)).thenReturn(userProfile);
+        when(userProfile.getLogin()).thenReturn(login);
         mainPageServlet.doGet(request,response);
         check();
         String st = stringWrite.toString();
         Assert.assertTrue(st.contains("<!DOCTYPE html>"));
-        Assert.assertTrue(st.contains("login1"));
+        Assert.assertTrue(st.contains(login));
     }
 
     @Test
     public void testDoGetHaveSessionFalse() throws Exception {
-        when(accountService.haveSession("sessionId")).thenReturn(false);
+        when(accountService.haveSession(sessionId)).thenReturn(false);
         mainPageServlet.doGet(request, response);
         check();
         String st = stringWrite.toString();
         Assert.assertTrue(st.contains("<!DOCTYPE html>"));
-        Assert.assertFalse(st.contains("login1"));
+        Assert.assertFalse(st.contains(login));
     }
 }
