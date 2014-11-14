@@ -5,17 +5,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import utils.UserProfile;
-import javax.servlet.http.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import static org.mockito.Mockito.*;
 
-public class SigninServletImplTest {
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+public class SignupServletImplTest {
     final private static HttpServletRequest request = mock(HttpServletRequest.class);
     final private static HttpServletResponse response = mock(HttpServletResponse.class);
     final private static HttpSession httpSession = mock(HttpSession.class);
     final private static AccountService accountService = mock(AccountService.class);
-    private SigninServletImpl signinServlet= new SigninServletImpl(accountService);
+    private SignupServletImpl signupServlet= new SignupServletImpl(accountService);
     final StringWriter stringWrite = new StringWriter();
     final PrintWriter writer = new PrintWriter(stringWrite);
 
@@ -36,6 +43,7 @@ public class SigninServletImplTest {
         when(response.getWriter()).thenReturn(writer);
         when(request.getParameter("login")).thenReturn(login);
         when(request.getParameter("password")).thenReturn(password);
+        when(request.getParameter("email")).thenReturn(email);
     }
 
     @Test
@@ -46,48 +54,37 @@ public class SigninServletImplTest {
         when(userProfile.getLogin()).thenReturn(login);
         when(accountService.getUserProfileByLogin(login)).thenReturn(userProfile);
         when(userProfile.getEmail()).thenReturn(email);
-        signinServlet.doGet(request,response);
+        signupServlet.doGet(request,response);
         check();
         String st = stringWrite.toString();
-        Assert.assertTrue(st.contains("Enter yor login and password"));
+        Assert.assertTrue(st.contains("Registration Form"));
     }
 
     @Test
     public void testDoGetHaveSessionTrue() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(true);
-        signinServlet.doGet(request,response);
+        signupServlet.doGet(request,response);
         //check();
         verify(response).sendRedirect("/main");
     }
 
     @Test
     public void testDoPostSuccess() throws Exception {
-        when(accountService.haveUser(login)).thenReturn(true);
-        when(accountService.isPasswordCorrect(login, password)).thenReturn(true);
-        signinServlet.doPost(request, response);
+        when(accountService.haveUser(login)).thenReturn(false);
+        signupServlet.doPost(request, response);
+        //verify(accountService).addUser(login, password, email);
         verify(accountService).addSession(sessionId, login);
-        verify(response).setStatus(200);
+        check();
         verify(response).sendRedirect("/main");
     }
 
     @Test
-    public void testDoPostHaveUserFalse() throws Exception {
-        when(accountService.haveUser(login)).thenReturn(false);
-        signinServlet.doPost(request, response);
-        String st = stringWrite.toString();
-       // System.out.append(st);
-        Assert.assertTrue(st.contains("login does not exist"));
-        verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
-    }
-
-    @Test
-    public void testDoPostUncorrectPass() throws Exception {
+    public void testDoPostHaveUser() throws Exception {
         when(accountService.haveUser(login)).thenReturn(true);
-        when(accountService.isPasswordCorrect(login, "password")).thenReturn(false);
-        signinServlet.doPost(request, response);
+        signupServlet.doPost(request, response);
         String st = stringWrite.toString();
-       // System.out.append(st);
-        Assert.assertTrue(st.contains("wrong password"));
+        // System.out.append(st);
+        Assert.assertTrue(st.contains("uncurrect login"));
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 }
