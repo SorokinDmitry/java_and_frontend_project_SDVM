@@ -10,6 +10,8 @@ import java.util.Iterator;
 /**
  * Created by Vadim on 09.11.14.
  */
+
+// Проверка на победителя гдеее???
 public class GameSession {
     private static final int FIELD_ROW_SIZE = 10;
     private static final int FIELD_COL_SIZE = 10;
@@ -30,34 +32,41 @@ public class GameSession {
         if (!userInSession(idUser))
             return Codes.USER_NOT_FOUND;
 
-        // Если field != null ???
-        Field field;
-        if (idUser == idUser1)
-            field = fieldUser1;
-        else
-            field = fieldUser2;
-
-        if (field != null)
-            return Codes.FIELD_EXIST;
+        // If field != null ???
 
         // Здесь должна быть проверка на корректность расстановки кораблей
 
+        Field field;
         // Расстановка кораблей
         field = new Field(FIELD_ROW_SIZE, FIELD_COL_SIZE);
+
+        for (Ship ship : ships) {
+            if (!field.setShip(ship)) {
+                field.clearField();
+                return Codes.ERROR;
+            }
+        }
+
+        /*
         for (Iterator<Ship> iterator = ships.iterator(); iterator.hasNext(); ) {
             Ship ship = iterator.next();
-            field.setShip(ship);
-        }
+            if (!field.setShip(ship)) {
+                field.clearField();
+                return Codes.ERROR;
+            }
+        }*/
+
+        if (idUser == idUser1)
+            fieldUser1 = field;
+        else
+            fieldUser2 = field;
 
         return Codes.OK;
     }
 
     public Codes fire(long idUser, int x, int y) {
-        // Провера на userInSession не нужна
-        Field field = getField(idUser);
-
-
-        return Codes.CELL_DOES_NOT_EXIST;
+        Field field = getField(getIdOpponent(idUser));
+        return field.fire(x, y);
     }
 
     public int getNumberNotFiredDecks(long idUser) {
@@ -91,5 +100,6 @@ public class GameSession {
     public boolean userInSession(long idUser) {
         return  (idUser == idUser1) || (idUser == idUser2);
     }
+
 
 }

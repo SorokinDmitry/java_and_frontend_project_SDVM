@@ -8,14 +8,14 @@ public class Cell {
     private int y;
     private boolean fire;
     private boolean deck;
-    //private boolean accessToPlace;
+    private boolean access; // Доступ для размещения кораблей
 
     public Cell() {
         this.x = -1;
         this.y = -1;
         this.fire = false;
         this.deck = false;
-        //this.accessToPlace = true;
+        this.access = true;
     }
 
     public Cell(int x, int y) {
@@ -23,7 +23,7 @@ public class Cell {
         this.y = y;
         this.fire = false;
         this.deck = false;
-        //this.accessToPlace = true;
+        this.access = true;
     }
 
 
@@ -53,12 +53,18 @@ public class Cell {
     public boolean isDeck() {
         return deck;
     }
+    public boolean isAccessible() {
+        return access;
+    }
 
     public void setFire(boolean fire) {
         this.fire = fire;
     }
     public void setDeck(boolean ship) {
         this.deck = ship;
+    }
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 
 

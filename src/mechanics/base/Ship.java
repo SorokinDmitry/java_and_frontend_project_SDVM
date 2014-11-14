@@ -4,14 +4,11 @@ package base;
  * Created by Vadim on 08.11.14.
  */
 public class Ship {
-    //private boolean killed;
-    //private Cell cells;
     private int x0;
     private int y0;
     private int xn;
     private int yn;
     private int countDeck;
-    //private boolean vertical;
 
     public Ship(int x0, int y0, int xn, int yn) {
         // Ordering coordinates
@@ -38,17 +35,13 @@ public class Ship {
             return countDeck;
         }
 
-
         // The vertical orientation
-        if (this.x0 == this.xn ) {
+        if (this.x0 == this.xn )
             countDeck = this.yn - this.y0 + 1;
-            //vertical = false;
-        }
+
         // The horizontal orientation
-        else if (this.y0 == this.yn) {
+        else if (this.y0 == this.yn)
             countDeck = this.xn - this.x0 + 1;
-            //vertical = true;
-        }
 
         else
             this.countDeck = -1;
@@ -75,10 +68,5 @@ public class Ship {
     public int getCountDeck() {
         return this.countDeck;
     }
-
-    //public boolean isVertical() {
-    //    return this.vertical;
-    //}
-
 
 }

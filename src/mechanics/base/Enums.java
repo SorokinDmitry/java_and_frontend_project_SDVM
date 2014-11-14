@@ -5,6 +5,7 @@ package base;
  */
 enum Codes {
     OK,
+    ERROR,                  // При ошибке размещения кораблей
     EMPTY,                  // Мимо
     DECK,                   // Попал
     KILLED,

@@ -3,6 +3,7 @@ package base;
 /**
  * Created by Vadim on 08.11.14.
  */
+
 public class Field {
     //private static final int FIELD_ROW_SIZE = 10;
     //private static final int FIELD_COL_SIZE = 10;
@@ -19,15 +20,9 @@ public class Field {
 
         field = new Cell[rows][cols];
 
-        System.out.print(field[0][0]);
-        System.out.print("rows: " + rows + " cols: " + cols + "\n");
-        //field[0][0].isFire();
-
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                if (field[i][j] == null)
-                    System.out.print("i: " + i + " j: " + j);
-                field[i][j].setXY(i, j);
+                field[i][j] = new Cell(i, j);
             }
         }
 
@@ -48,12 +43,20 @@ public class Field {
         if (countDeck< 0)
             return false;
 
-        // Проверкаааа!!!
-
-        for(int i = ship.getX0(); i <= ship.getXn(); ++i) {
-            for (int j = ship.getY0(); j <= ship.getYn(); ++j) {
+        for(int i = ship.getY0(); i <= ship.getYn(); ++i) {
+            for (int j = ship.getX0(); j <= ship.getXn(); ++j) {
+                if (!field[i][j].isAccessible())
+                    return false;
                 field[i][j].setDeck(true);
+                field[i][j].setAccess(false);
                 numberNotFiredDecks++;
+            }
+        }
+
+        // Окружение ячейки, чтобы нельзя было ставить корабли рядом
+        for(int i = ship.getY0(); i <= ship.getYn(); ++i) {
+            for (int j = ship.getX0(); j <= ship.getXn(); ++j) {
+                surroundCell(i, j);
             }
         }
 
@@ -70,6 +73,7 @@ public class Field {
 
         if (cell.isDeck()) {
             cell.setFire(true);
+            numberNotFiredDecks--;
             return Codes.DECK;
 
         }
@@ -82,12 +86,54 @@ public class Field {
         return (x >= 0 && x < cols && y >= 0 && y < rows);
     }
 
+    public void clearField() {
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                this.field[i][j].setFire(false);
+                this.field[i][j].setDeck(false);
+                this.field[i][j].setAccess(true);
+            }
+        }
+        this.numberNotFiredDecks = 0;
+    }
+
+    // В поле field вокруг ячейки Cell ячейки отмечаются как access=false;
+    private void surroundCell(int x, int y) {
+        if (x - 1 > 0) {
+            field[x - 1][y].setAccess(false);
+            if(y - 1 > 0)
+                field[x - 1][y - 1].setAccess(false);
+            if (y + 1 < rows)
+                field[x - 1][y + 1].setAccess(false);
+        }
+
+        if (x + 1 < cols) {
+            field[x + 1][y].setAccess(false);
+            if(y - 1 > 0)
+                field[x + 1][y - 1].setAccess(false);
+            if (y + 1 < rows)
+                field[x + 1][y + 1].setAccess(false);
+        }
+
+        if (y - 1 > 0)
+            field[x][y - 1].setAccess(false);
+
+        if (y + 1 < rows)
+            field[x][y + 1].setAccess(false);
+    }
+
+
+
+    // Проверка на победителя
+
 
     // Метод для отладки
     public void printField() {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                System.out.print(field[i][j].isDeck() + " ");
+                int digit = (field[i][j].isDeck()) ? 1 : 0;
+                //int digit = (field[i][j].isAccessible()) ? 1 : 0;
+                System.out.print(digit + " ");
             }
             System.out.println();
         }

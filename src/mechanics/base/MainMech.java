@@ -1,31 +1,25 @@
 package base;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by Vadim on 08.11.14.
  */
 
+// Класс для проверки отдельных методов. В production не войдёт
 public class MainMech {
     public static void main(String[] args) {
         System.out.print("Hello, World!\n");
 
-        /*
-        Queue<Long> queueUsers = new LinkedList<Long>();
+
+        /*Queue<Long> queueUsers = new LinkedList<>();
         for (long i = 0; i < 5; ++i) {
             queueUsers.add(new Long(i));
         }
 
         while(!queueUsers.isEmpty()) {
             System.out.print(queueUsers.poll() + "\n");
-        }
-        */
-
-        long idUser1 = 1;
-        long idUser2 = 2;
-        GameSession gameSession = new GameSession(idUser1, idUser2);
+        }*/
 
 
         Ship fourDecker1 = new Ship(0, 0, 3, 0);
@@ -55,14 +49,34 @@ public class MainMech {
         ships.add(oneDecker3);
         ships.add(oneDecker4);
 
-        //System.out.print(ships.size());
+
+        long idUser1 = 1;
+        long idUser2 = 2;
+        GameSession gameSession = new GameSession(idUser1, idUser2);
+
         gameSession.placeShips(ships, idUser1);
-        //gameSession.placeShips(ships, idUser2);
+        gameSession.placeShips(ships, idUser2);
 
-        int[][] arr;
-        arr = new int[10][10];
-        arr[0][0] = 200;
-        System.out.print(arr[0][0]);
+        //System.out.print(gameSession.getField(idUser1));
+        gameSession.getField(idUser1).printField();
+        /*
+        Codes status;
+        int x = 0;
+        int y = 0;
+        status = gameSession.fire(idUser1, x, y);
+        System.out.print(status + "\n");
+        System.out.print(gameSession.getNumberNotFiredDecks(idUser2) + "\n");
 
+        status = gameSession.fire(idUser1, x, y);
+        System.out.print(status + "\n");
+        System.out.print(gameSession.getNumberNotFiredDecks(idUser2) + "\n");
+        * /
+
+        Map<Long, GameSession> gameSessionsMap = new HashMap<>();
+        gameSessionsMap.put(idUser1, gameSession);
+        gameSessionsMap.put(idUser2, gameSession);
+        System.out.println(gameSessionsMap.get(idUser1));
+        System.out.println(gameSessionsMap.get(idUser2));
+        */
     }
 }
