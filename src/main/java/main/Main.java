@@ -71,6 +71,6 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
-        //gameMechanics.run();
+        gameMechanics.run();
     }
 }
