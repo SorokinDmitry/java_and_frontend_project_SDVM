@@ -25,13 +25,9 @@ public class ProfileServletImpl extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         // Получение логина активного пользователя
         String sessionId = request.getSession().getId();
-        String login = null;
+
         if (accountService.haveSession(sessionId)) {
-            login = accountService.getUserProfileBySessionId(sessionId).getLogin();
-        }
-        if (login == null) {
-            response.sendRedirect("/auth/signin");
-        } else {
+            String login = accountService.getUserProfileBySessionId(sessionId).getLogin();
             Map<String, Object> pageVariables = new HashMap<>();
             pageVariables.put("login", login);
             pageVariables.put("email", accountService.getUserProfileByLogin(login).getEmail());
@@ -39,6 +35,10 @@ public class ProfileServletImpl extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
         }
-    }
+        else
+        {
+            response.sendRedirect("/auth/signin");
+        }
+   }
 }
 

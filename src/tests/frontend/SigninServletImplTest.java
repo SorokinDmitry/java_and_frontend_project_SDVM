@@ -11,10 +11,10 @@ import java.io.StringWriter;
 import static org.mockito.Mockito.*;
 
 public class SigninServletImplTest {
-    final private static HttpServletRequest request = mock(HttpServletRequest.class);
-    final private static HttpServletResponse response = mock(HttpServletResponse.class);
-    final private static HttpSession httpSession = mock(HttpSession.class);
-    final private static AccountService accountService = mock(AccountService.class);
+    final private HttpServletRequest request = mock(HttpServletRequest.class);
+    final private HttpServletResponse response = mock(HttpServletResponse.class);
+    final private HttpSession httpSession = mock(HttpSession.class);
+    final private AccountService accountService = mock(AccountService.class);
     private SigninServletImpl signinServlet= new SigninServletImpl(accountService);
     final StringWriter stringWrite = new StringWriter();
     final PrintWriter writer = new PrintWriter(stringWrite);

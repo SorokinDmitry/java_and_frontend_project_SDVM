@@ -54,8 +54,10 @@ public class AccountServiceTest {
     public void testCountOfSessions() throws Exception {
         UserProfile[] userProfiles = addUsers(2);
         int before = accountService.getCountOfSessions();
+
         accountService.addSession("434",userProfiles[0].getLogin());
         assertEquals(1, accountService.getCountOfSessions() - before);
+
         accountService.addSession("476576",userProfiles[1].getLogin());
         assertEquals(2, accountService.getCountOfSessions() - before);
     }
@@ -68,18 +70,29 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testAddUncorrectUser() throws Exception {
+    public void testAddUncorrectLoginUser() throws Exception {
         UserProfile user1 = new UserProfile("", "password", "email1");
-        UserProfile user2 = new UserProfile("sdgsdfhgsd", "", "email2");
-        UserProfile user3 = new UserProfile("sadgdfnb", "pass", "");
         int before = accountService.getCountOfUsers();
         accountService.addUser(user1);
         assertEquals(0, accountService.getCountOfUsers() - before);
+    }
+
+    @Test
+    public void testAddUncorrectPassUser() throws Exception {
+        UserProfile user2 = new UserProfile("sdgsdfhgsd", "", "email2");
+        int before = accountService.getCountOfUsers();
         accountService.addUser(user2);
         assertEquals(0, accountService.getCountOfUsers() - before);
+    }
+
+    @Test
+    public void testAddUncorrectEmailUser() throws Exception {
+        UserProfile user3 = new UserProfile("sadgdfnb", "pass", "");
+        int before = accountService.getCountOfUsers();
         accountService.addUser(user3);
         assertEquals(0, accountService.getCountOfUsers() - before);
     }
+
 
     @Test
     public void testAddRegisteredUserSession() throws Exception {

@@ -7,10 +7,10 @@ import javax.servlet.http.*;
 import static org.mockito.Mockito.*;
 
 public class LogoutServletImplTest {
-    final private static HttpServletRequest request = mock(HttpServletRequest.class);
-    final private static HttpServletResponse response = mock(HttpServletResponse.class);
-    final private static HttpSession httpSession = mock(HttpSession.class);
-    final private static AccountService accountService = mock(AccountService.class);
+    final private  HttpServletRequest request = mock(HttpServletRequest.class);
+    final private  HttpServletResponse response = mock(HttpServletResponse.class);
+    final private  HttpSession httpSession = mock(HttpSession.class);
+    final private  AccountService accountService = mock(AccountService.class);
     private LogoutServletImpl logoutServlet = new LogoutServletImpl(accountService);
 
     private String sessionId = "sessionId";

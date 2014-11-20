@@ -18,10 +18,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SignupServletImplTest {
-    final private static HttpServletRequest request = mock(HttpServletRequest.class);
-    final private static HttpServletResponse response = mock(HttpServletResponse.class);
-    final private static HttpSession httpSession = mock(HttpSession.class);
-    final private static AccountService accountService = mock(AccountService.class);
+    final private HttpServletRequest request = mock(HttpServletRequest.class);
+    final private HttpServletResponse response = mock(HttpServletResponse.class);
+    final private HttpSession httpSession = mock(HttpSession.class);
+    final private AccountService accountService = mock(AccountService.class);
     private SignupServletImpl signupServlet= new SignupServletImpl(accountService);
     final StringWriter stringWrite = new StringWriter();
     final PrintWriter writer = new PrintWriter(stringWrite);
@@ -84,7 +84,17 @@ public class SignupServletImplTest {
         signupServlet.doPost(request, response);
         String st = stringWrite.toString();
         // System.out.append(st);
-        Assert.assertTrue(st.contains("uncurrect login"));
+        Assert.assertTrue(st.contains("uncorrect login"));
+        verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+    }
+
+    @Test
+    public void testDoPostEmptyLogin() throws Exception {
+        when(request.getParameter("login")).thenReturn("");
+        signupServlet.doPost(request, response);
+        String st = stringWrite.toString();
+        // System.out.append(st);
+        Assert.assertTrue(st.contains("uncorrect login"));
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 }

@@ -1,6 +1,7 @@
 package selenium;
 
         import com.sun.istack.internal.NotNull;
+        import org.junit.Test;
         import org.openqa.selenium.By;
         import org.openqa.selenium.WebDriver;
         import org.openqa.selenium.WebElement;
@@ -9,8 +10,9 @@ package selenium;
         import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginTest  {
-    public void main(String[] args) throws Exception {
-        testLogin("localhost:8080/auth/signin", "dmitr", "");
+    @Test
+    public void test() {
+        testLogin("http://localhost:8090/auth/signin", "dmitr", "123");
     }
     public void testLogin(@NotNull String url,@NotNull String username,@NotNull String password) {
         WebDriver driver = new HtmlUnitDriver(true);
@@ -22,7 +24,7 @@ public class LoginTest  {
                 elementPassword.sendKeys(password);
 // Now submit the form. WebDriver will find the form for us from the element
         elementUsername.submit();
-        elementPassword.submit();
+        //elementPassword.submit();
 // Wait for the page to load, timeout after 10 seconds
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             @Override

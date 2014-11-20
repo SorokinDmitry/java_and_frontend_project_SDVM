@@ -55,8 +55,8 @@ public class SignupServletImpl extends HttpServlet {
 
         // Обработка запроса + формирование ответа
         Map<String, Object> pageVariables = new HashMap<>();
-        if (login.equals("") || accountService.haveUser(login)) {
-            pageVariables.put("error", "uncurrect login");
+        if (login.isEmpty() || accountService.haveUser(login)) {
+            pageVariables.put("error", "uncorrect login");
             response.getWriter().println(PageGenerator.getPage("signup.html", pageVariables));
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } else {

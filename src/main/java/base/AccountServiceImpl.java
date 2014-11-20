@@ -19,7 +19,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public boolean addUser(UserProfile user) {
-        if ( user.getLogin().equals("") || user.getPassword().equals("") || user.getEmail().equals("") ) {
+        if ( user.getLogin().isEmpty() || user.getPassword().isEmpty() || user.getEmail().isEmpty() ) {
             return false;
         } else {
             this.users.put(user.getLogin(), user);
