@@ -38,7 +38,7 @@ public class ProfileServletImplTest {
     public void testDoGetHaveSessionTrue() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(true);
         when(accountService.getUserLoginBySessionId(sessionId)).thenReturn(login);
-        when(accountService.getUserEmailByLogin(login)).thenReturn(email);
+        when(accountService.getUserEmailBySessionId(sessionId)).thenReturn(email);
         profileServlet.doGet(request,response);
         check();
         String st = stringWrite.toString();

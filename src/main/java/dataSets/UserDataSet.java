@@ -12,7 +12,7 @@ public class UserDataSet {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
     @Column(name = "password")
     private String password;
@@ -35,5 +35,25 @@ public class UserDataSet {
         this.password = password;
         this.email = email;
         this.score = 0;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public String getLogin() {
+        return this.login;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public long getScore() {
+        return this.score;
     }
 }

@@ -12,6 +12,6 @@ public interface AccountService {
     public boolean haveSession(String id);
     public boolean haveUser(String login);
     public boolean isPasswordCorrect(String login, String password);
-    public String getUserEmailByLogin(String login);
+    public String getUserEmailBySessionId(String id);
     public String getUserLoginBySessionId(String id);
 }
