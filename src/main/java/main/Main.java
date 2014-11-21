@@ -1,8 +1,7 @@
 package main;
 
 import admin.*;
-import base.AccountService;
-import base.AccountServiceImpl;
+import base.*;
 import frontend.*;
 import mechanics.GameMechanics;
 import mechanics.GameMechanicsImpl;
@@ -38,7 +37,8 @@ public class Main {
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        AccountService accountService = new AccountServiceImpl();
+        DatabaseService databaseService = new DBServiceImpl();
+        AccountService accountService = new AccountServiceDBImpl(databaseService);
         WebSocketService webSocketService = new WebSocketServiceImpl();
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 

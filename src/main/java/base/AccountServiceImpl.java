@@ -1,6 +1,6 @@
 package base;
 
-import utils.UserDataSet;
+import utils.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +9,9 @@ import java.util.Map;
  * Created by Dmitry on 013 13.09.14.
  */
 public class AccountServiceImpl implements AccountService {
-    private Map<String, UserDataSet> users = new HashMap<String, UserDataSet>();
+    private Map<String, UserProfile> users = new HashMap<String, UserProfile>();
     private Map<String, String> usersId = new HashMap<String, String>();
-    private Map<String, UserDataSet> sessions = new HashMap<String, UserDataSet>();
+    private Map<String, UserProfile> sessions = new HashMap<String, UserProfile>();
 
     public AccountServiceImpl() {
         addUser("admin","admin","admin@admin.ru");
@@ -22,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
             return false;
         } else {
-            UserDataSet user = new UserDataSet(login, password, email);
+            UserProfile user = new UserProfile(login, password, email);
             this.users.put(login, user);
             return true;
         }
