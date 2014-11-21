@@ -4,7 +4,6 @@ import base.AccountService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import utils.UserProfile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,11 +48,6 @@ public class SignupServletImplTest {
     @Test
     public void testDoGetHaveSessionFalse() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(false);
-        UserProfile userProfile = mock(UserProfile.class);
-        when(accountService.getUserProfileBySessionId(sessionId)).thenReturn(userProfile);
-        when(userProfile.getLogin()).thenReturn(login);
-        when(accountService.getUserProfileByLogin(login)).thenReturn(userProfile);
-        when(userProfile.getEmail()).thenReturn(email);
         signupServlet.doGet(request,response);
         check();
         String st = stringWrite.toString();

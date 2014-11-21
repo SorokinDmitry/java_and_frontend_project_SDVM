@@ -4,7 +4,6 @@ import base.AccountService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import utils.UserProfile;
 
 import javax.servlet.http.*;
 
@@ -42,13 +41,11 @@ public class MainPageServletImplTest {
     @Test
     public void testDoGetHaveSessionTrue() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(true);
-        UserProfile userProfile = mock(UserProfile.class);
-        when(accountService.getUserProfileBySessionId(sessionId)).thenReturn(userProfile);
-        when(userProfile.getLogin()).thenReturn(login);
+        when(accountService.getUserLoginBySessionId(sessionId)).thenReturn(login);
         mainPageServlet.doGet(request,response);
         check();
         String st = stringWrite.toString();
-        verify(accountService).getUserProfileBySessionId(sessionId);
+        verify(accountService).getUserLoginBySessionId(sessionId);
         assertTrue(st.contains("<!DOCTYPE html>"));
         assertTrue(st.contains(login));
     }
@@ -58,7 +55,7 @@ public class MainPageServletImplTest {
         when(accountService.haveSession(sessionId)).thenReturn(false);
         mainPageServlet.doGet(request, response);
         check();
-        verify(accountService,never()).getUserProfileBySessionId(sessionId);
+        verify(accountService,never()).getUserLoginBySessionId(sessionId);
         String st = stringWrite.toString();
         assertTrue(st.contains("<!DOCTYPE html>"));
         assertFalse(st.contains(login));

@@ -27,10 +27,10 @@ public class ProfileServletImpl extends HttpServlet {
         String sessionId = request.getSession().getId();
 
         if (accountService.haveSession(sessionId)) {
-            String login = accountService.getUserProfileBySessionId(sessionId).getLogin();
+            String login = accountService.getUserLoginBySessionId(sessionId);
             Map<String, Object> pageVariables = new HashMap<>();
             pageVariables.put("login", login);
-            pageVariables.put("email", accountService.getUserProfileByLogin(login).getEmail());
+            pageVariables.put("email", accountService.getUserEmailByLogin(login));
             response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

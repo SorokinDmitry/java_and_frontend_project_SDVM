@@ -32,7 +32,7 @@ public class GameServlet extends HttpServlet {
         String sessionId = request.getSession().getId();
         String login = null;
         if (accountService.haveSession(sessionId)) {
-            login = accountService.getUserProfileBySessionId(sessionId).getLogin();
+            login = accountService.getUserLoginBySessionId(sessionId);
             pageVariables.put("myName", login);
             pageVariables.put("port", port);
             response.getWriter().println(PageGenerator.getPage("game.html", pageVariables));

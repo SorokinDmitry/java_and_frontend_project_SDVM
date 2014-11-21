@@ -14,15 +14,16 @@ public class AccountServiceImpl implements AccountService {
     private Map<String, UserProfile> sessions = new HashMap<String, UserProfile>();
 
     public AccountServiceImpl() {
-        addUser(new UserProfile("admin","admin","admin@admin.ru"));
-        addUser(new UserProfile("dmitr","123","sorokin.dmitr@yandex.ru"));
+        addUser("admin","admin","admin@admin.ru");
+        addUser("dmitr","123","sorokin.dmitr@yandex.ru");
     }
 
-    public boolean addUser(UserProfile user) {
-        if ( user.getLogin().isEmpty() || user.getPassword().isEmpty() || user.getEmail().isEmpty() ) {
+    public boolean addUser(String login, String password, String email) {
+        if ( login.isEmpty() || password.isEmpty() || email.isEmpty() ) {
             return false;
         } else {
-            this.users.put(user.getLogin(), user);
+            UserProfile user = new UserProfile(login, password, email);
+            this.users.put(login, user);
             return true;
         }
     }
@@ -63,11 +64,19 @@ public class AccountServiceImpl implements AccountService {
         return password.equals(users.get(login).getPassword());
     }
 
-    public UserProfile getUserProfileByLogin(String login) {
-        return users.get(login);
+    public String getUserEmailByLogin(String login) {
+        if (users.containsKey(login)) {
+            return users.get(login).getEmail();
+        } else {
+            return null;
+        }
     }
 
-    public UserProfile getUserProfileBySessionId(String id) {
-        return sessions.get(id);
+    public String getUserLoginBySessionId(String id) {
+        if (sessions.containsKey(id)) {
+            return sessions.get(id).getLogin();
+        } else  {
+            return null;
+        }
     }
 }

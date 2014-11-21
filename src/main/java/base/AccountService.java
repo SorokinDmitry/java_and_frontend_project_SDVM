@@ -1,12 +1,10 @@
 package base;
 
-import utils.UserProfile;
-
 /**
  * Created by Dmitry on 019 19.10.14.
  */
 public interface AccountService {
-    public boolean addUser(UserProfile user);
+    public boolean addUser(String login, String password, String email);
     public boolean addSession(String id, String login);
     public int getCountOfUsers();
     public int getCountOfSessions();
@@ -14,6 +12,6 @@ public interface AccountService {
     public boolean haveSession(String id);
     public boolean haveUser(String login);
     public boolean isPasswordCorrect(String login, String password);
-    public UserProfile getUserProfileByLogin(String login);
-    public UserProfile getUserProfileBySessionId(String id);
+    public String getUserEmailByLogin(String login);
+    public String getUserLoginBySessionId(String id);
 }
