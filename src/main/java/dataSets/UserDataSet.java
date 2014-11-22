@@ -1,24 +1,24 @@
 package dataSets;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 /**
  * Created by serg on 21.11.14.
  */
-@Entity
-@Table(name = "users")
+//@Entity
+//@Table(name = "users")
 public class UserDataSet {
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@Column(name="id")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "login")
+    //@Column(name = "login")
     private String login;
-    @Column(name = "password")
+    //@Column(name = "password")
     private String password;
-    @Column(name = "email")
+    //@Column(name = "email")
     private String email;
-    @Column(name = "score")
+    //@Column(name = "score")
     private long score;
 
     public UserDataSet(long id, String login, String password, String email, long score) {

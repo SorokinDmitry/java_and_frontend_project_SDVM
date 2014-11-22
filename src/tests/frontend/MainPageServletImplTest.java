@@ -1,7 +1,6 @@
-package frontend;
+package servlets;
 
 import base.AccountService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -19,10 +19,10 @@ public class ResourceFactory {
 
     private ResourceFactory()
     {
-        serverResources = (ServerResources) ReadXMLFileSAX.readXML("ServerResources.xml");
+        serverResources = (ServerResources) ReadXMLFileSAX.readXML("resources/ServerResources.xml");
         if ( serverResources == null )
             serverResources = new ServerResources();
-        gameResources = (GameResources) ReadXMLFileSAX.readXML("GameResources.xml");
+        gameResources = (GameResources) ReadXMLFileSAX.readXML("resources/GameResources.xml");
         if ( gameResources == null )
             gameResources = new GameResources();
     }

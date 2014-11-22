@@ -7,17 +7,22 @@ import java.io.Serializable;
  */
 public class GameResources implements Serializable {
     private static final long serialVersionUID = -3895203507200457732L;
+    private int gameTime;
     private int fieldSize;
     private int countOfShips;
 
     public GameResources() {
         this.fieldSize = 10;
         this.countOfShips = 10;
+        this.gameTime = 15 * 1000;
     }
 
-    public GameResources(int fieldSize, int countOfShips) {
-        this.fieldSize = fieldSize;
-        this.countOfShips = countOfShips;
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
+    }
+
+    public int getGameTime() {
+        return gameTime;
     }
 
     public void setFieldSize(int fieldSize) {

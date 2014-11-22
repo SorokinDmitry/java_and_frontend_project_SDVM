@@ -1,0 +1,4 @@
+<class type='resources.ServerResources'>
+	<port>8090</port>
+	<ip>localhost</ip>
+</class>

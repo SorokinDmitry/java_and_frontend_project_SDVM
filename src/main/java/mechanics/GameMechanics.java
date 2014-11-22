@@ -1,13 +1,17 @@
 package mechanics;
 
+import base.UserGame;
+
 /**
  * Created by Dmitry on 025 25.10.14.
  */
 public interface GameMechanics {
 
-    public void addUser(String user);
+    void addUser(String user);
 
-    public void incrementScore(String userName);
+    UserGame getUserGame(String user);
 
-    public void run();
+    void incrementScore(String userName);
+
+    void run();
 }

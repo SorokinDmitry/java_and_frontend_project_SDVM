@@ -3,7 +3,8 @@ package mechanics;
 import base.GameSession;
 import base.GameSessionImpl;
 import base.UserGame;
-import frontend.WebSocketService;
+import resources.ResourceFactory;
+import sockets.WebSocketService;
 import utils.TimeHelper;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
-    private static final int gameTime = 15 * 1000;
+    //private static final int gameTime = 15 * 1000;
 
     private WebSocketService webSocketService;
 
@@ -32,12 +33,20 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     public void addUser(String user) {
-        if (waiter != null) {
-            starGame(user);
-            waiter = null;
-        } else {
-            waiter = user;
-        }
+        if ( !nameToGame.containsKey(user) && (waiter == null || !waiter.equals(user)))
+            if (waiter != null) {
+                starGame(user);
+                waiter = null;
+            } else {
+                waiter = user;
+            }
+    }
+
+    public UserGame getUserGame(String user) {
+        if ( nameToGame.containsKey(user) )
+            return  nameToGame.get(user).getSelf(user);
+        else
+            return null;
     }
 
     public void incrementScore(String userName) {
@@ -52,7 +61,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void run() {
-        System.out.append("game mechan run");
+        System.out.append("GameMechanics -> run");
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);
@@ -61,7 +70,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private void gmStep() {
         for (GameSession session : allSessions) {
-            if (session.getSessionTime() > gameTime) {
+            if ( session.getSessionTime() > ResourceFactory.getInstance().getGameResources().getGameTime() ) {
                 boolean firstWin = session.isFirstWin();
 
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);
