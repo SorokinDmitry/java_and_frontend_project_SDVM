@@ -40,6 +40,7 @@ public class Main {
         Servlet profileServlet = new ProfileServletImpl(accountService);
         Servlet gameServlet = new GameServlet(accountService);
         Servlet webSocketGameServlet = new WebSocketGameServlet(accountService, gameMechanics, webSocketService);
+        Servlet webSocketMainServlet = new WebSocketMainServlet(accountService, gameMechanics, webSocketService);
 
         Server server = new Server(res.getPort());
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -51,7 +52,7 @@ public class Main {
         context.addServlet(new ServletHolder(adminServlet),         "/admin");
         context.addServlet(new ServletHolder(gameServlet),          "/game");
         context.addServlet(new ServletHolder(webSocketGameServlet), "/gameplay");
-        context.addServlet(new ServletHolder(webSocketGameServlet), "/socket");
+        context.addServlet(new ServletHolder(webSocketMainServlet), "/socket");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);

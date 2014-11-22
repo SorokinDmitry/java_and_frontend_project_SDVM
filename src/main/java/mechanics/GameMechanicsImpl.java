@@ -59,7 +59,6 @@ public class GameMechanicsImpl implements GameMechanics {
         webSocketService.notifyEnemyNewScore(enemyUser);
     }
 
-    @Override
     public void run() {
         System.out.append("GameMechanics -> run");
         while (true) {

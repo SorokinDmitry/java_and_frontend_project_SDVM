@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Dmitry on 025 25.10.14.
  */
-public class ServerResources implements Serializable {
+public class ServerResources {
     private static final long serialVersionUID = -3895203507200457732L;
     private int port;
     private String ip;

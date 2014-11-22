@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Dmitry on 010 10.11.14.
  */
-public class GameResources implements Serializable {
+public class GameResources {
     private static final long serialVersionUID = -3895203507200457732L;
     private int gameTime;
     private int fieldSize;
