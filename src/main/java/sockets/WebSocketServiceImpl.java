@@ -2,8 +2,6 @@ package sockets;
 
 
 import base.UserGame;
-import sockets.GameWebSocket;
-import sockets.WebSocketService;
 
 import java.util.HashMap;
 import java.util.Map;

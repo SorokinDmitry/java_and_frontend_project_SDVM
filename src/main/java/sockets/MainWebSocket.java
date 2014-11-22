@@ -1,7 +1,6 @@
 package sockets;
 
 import base.UserGame;
-import mechanics.GameMechanics;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
