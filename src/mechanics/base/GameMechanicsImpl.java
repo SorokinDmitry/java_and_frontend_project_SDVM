@@ -57,7 +57,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private void startGame(long idUser1) {
         Long idUser2 = waiter;
-        GameSession gameSession = createGameSession(long idUser1, idUser2);
+        GameSession gameSession = createGameSession(idUser1, idUser2);
 
         //Вот так должна начинаться игра!
         //webSocketService.notifyStartGame(gameSession.getSelf(idUser1));
@@ -78,13 +78,11 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
 
-
     public GameSession getGameSession(long idUser) {
         return gameSessionsMap.get(idUser);
     }
 
-
-    private GameSession createGameSession(long idUser1, idUser2) {
+    private GameSession createGameSession(long idUser1, long idUser2) {
         GameSession gameSession = new GameSessionImpl(idUser1, idUser2);
         gameSessionsMap.put(idUser1, gameSession);
         gameSessionsMap.put(idUser2, gameSession);

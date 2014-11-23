@@ -82,7 +82,7 @@ public class  GameSessionImpl implements GameSession {
         return idUser1;
     }
 
-    private Field getField(long idUser) {
+    public Field getField(long idUser) {
         if (idUser == idUser1)
             return fieldUser1;
         if (idUser == idUser2)

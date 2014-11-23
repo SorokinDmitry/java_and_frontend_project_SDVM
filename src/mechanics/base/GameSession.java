@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public interface GameSession {
     public long getFirst();
     public long getSecond();
+    public Field getField(long idUser);
     public Codes setShips(long idUser, ArrayList<Ship> ships);
     public Codes fire(long idUser, int x, int y);
     public boolean isWinner(long idUser);
