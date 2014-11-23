@@ -1,7 +1,7 @@
 package frontend;
 
 import base.AccountService;
-import mechanics.GameMechanics;
+import base.GameMechanics;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import javax.servlet.annotation.WebServlet;

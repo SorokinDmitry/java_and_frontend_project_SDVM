@@ -1,7 +1,6 @@
 package frontend;
 
 import base.AccountService;
-import mechanics.GameMechanics;
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;

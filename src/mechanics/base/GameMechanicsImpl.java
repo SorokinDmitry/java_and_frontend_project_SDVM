@@ -1,10 +1,6 @@
 package base;
 
-// импорты могут быть неверными!
-    import base.GameSession;
-    import base.GameSessionImpl;
-
-    import java.util.*;
+import java.util.*;
 
 /**
  * Created by Vadim on 09.11.14.

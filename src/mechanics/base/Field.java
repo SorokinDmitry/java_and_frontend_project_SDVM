@@ -97,7 +97,7 @@ public class Field {
         this.numberNotFiredDecks = 0;
     }
 
-    // В поле field вокруг ячейки Cell ячейки отмечаются как access=false;
+    // В поле field вокруг ячейки base.Cell ячейки отмечаются как access=false;
     private void surroundCell(int x, int y) {
         if (x - 1 > 0) {
             field[x - 1][y].setAccess(false);

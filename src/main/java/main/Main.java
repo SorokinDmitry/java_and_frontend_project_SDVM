@@ -1,10 +1,9 @@
 package main;
 
 import admin.*;
-import base.*;
 import frontend.*;
-import mechanics.GameMechanics;
-import mechanics.GameMechanicsImpl;
+import base.GameMechanics;
+import base.GameMechanicsImpl;
 import frontend.WebSocketService;
 import frontend.WebSocketServiceImpl;
 import org.eclipse.jetty.server.Handler;

@@ -1,18 +1,12 @@
 package base;
 
-import base.Codes;
-import base.Field;
-import base.Ship;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Vadim on 09.11.14.
  */
 
-// Проверка на победителя гдеее???
-public class GameSessionImpl implements GameSession {
+public class  GameSessionImpl implements GameSession {
     private static final int FIELD_ROW_SIZE = 10;
     private static final int FIELD_COL_SIZE = 10;
 
@@ -29,7 +23,7 @@ public class GameSessionImpl implements GameSession {
         return this.idUser2;
     }
 
-    public GameSession(long idUser1, long idUser2) {
+    public GameSessionImpl(long idUser1, long idUser2) {
         this.idUser1 = idUser1;
         this.idUser2 = idUser2;
         fieldUser1 = null;
@@ -68,7 +62,7 @@ public class GameSessionImpl implements GameSession {
         return field.fire(x, y);
     }
 
-    public int getNumberNotFiredDecks(long idUser) {
+    private int getNumberNotFiredDecks(long idUser) {
         if (!userInSession(idUser))
             return -1;
         Field field;
@@ -80,7 +74,7 @@ public class GameSessionImpl implements GameSession {
         return field.getNumberNotFiredDecks();
     }
 
-    public long getIdOpponent(long idUser) {
+    private long getIdOpponent(long idUser) {
         if (!userInSession(idUser))
             return -1;
         if (idUser == idUser1)
@@ -88,7 +82,7 @@ public class GameSessionImpl implements GameSession {
         return idUser1;
     }
 
-    public Field getField(long idUser) {
+    private Field getField(long idUser) {
         if (idUser == idUser1)
             return fieldUser1;
         if (idUser == idUser2)
@@ -96,7 +90,7 @@ public class GameSessionImpl implements GameSession {
         return null;
     }
 
-    public boolean userInSession(long idUser) {
+    private boolean userInSession(long idUser) {
         return  (idUser == idUser1) || (idUser == idUser2);
     }
 
@@ -111,13 +105,9 @@ public class GameSessionImpl implements GameSession {
     }
 
     public boolean isWinner(long idUser) {
-        if (getNumberNotFiredDecks(getIdOpponent(idUser));
+        if (getNumberNotFiredDecks(getIdOpponent(idUser)) == 0)
             return true;
         return false;
-    }
-
-    public boolean isFirstWin() {
-
     }
 
 }

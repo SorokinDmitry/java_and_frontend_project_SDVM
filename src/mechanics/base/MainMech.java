@@ -60,7 +60,7 @@ public class MainMech {
         //System.out.print(gameSession.getField(idUser1));
         gameSession.getField(idUser1).printField();
         /*
-        Codes status;
+        base.Codes status;
         int x = 0;
         int y = 0;
         status = gameSession.fire(idUser1, x, y);
