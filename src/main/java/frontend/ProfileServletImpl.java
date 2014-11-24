@@ -32,7 +32,7 @@ public class ProfileServletImpl extends HttpServlet {
             pageVariables.put("login", login);
             pageVariables.put("email", accountService.getUserEmailBySessionId(sessionId));
             response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
-            response.setContentType("text/html;charset=utf-8");
+            response.setContentType("text/html;charset=utf-8"); //"application/json"
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else
