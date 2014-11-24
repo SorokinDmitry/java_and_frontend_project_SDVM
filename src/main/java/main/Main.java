@@ -1,9 +1,13 @@
 package main;
 
 import admin.*;
+import base.AccountService;
+import base.AccountServiceDBImpl;
+import base.DBServiceImpl;
+import base.DatabaseService;
 import frontend.*;
-import base.GameMechanics;
-import base.GameMechanicsImpl;
+import mechanics.GameMechanics;
+import mechanics.GameMechanicsImpl;
 import frontend.WebSocketService;
 import frontend.WebSocketServiceImpl;
 import org.eclipse.jetty.server.Handler;
@@ -22,17 +26,9 @@ import javax.servlet.Servlet;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        ResourceFactory.getInstance();                                      // Создание фабрики
         ServerResources res = ResourceFactory.getInstance().getServerResources();
 
         int port = res.getPort();
-        /*if (args.length == 1) {
-            String portString = args[0];
-            port = Integer.valueOf(portString);
-        } else {
-            System.out.append("Use port as the first argument");
-            System.exit(1);
-        }*/
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 

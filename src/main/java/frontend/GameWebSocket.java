@@ -1,8 +1,7 @@
 package frontend;
 
 import base.UserGame;
-import frontend.WebSocketService;
-import base.GameMechanics;
+import mechanics.GameMechanics;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -54,8 +53,8 @@ public class GameWebSocket {
     }
 
     @OnWebSocketMessage
-    public void onMessage(String data) {
-        gameMechanics.incrementScore(myName);
+    public void onMessage(String data)    {
+        /*gameMechanics.incrementScore(myName);*/
     }
 
     @OnWebSocketConnect

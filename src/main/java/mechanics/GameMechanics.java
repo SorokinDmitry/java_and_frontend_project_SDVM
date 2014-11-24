@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public interface GameMechanics {
 
-    public boolean addUser(Long idUser);
+    public boolean addUser(String user);
 
-    public void fire(Long idUser, int x, int y);
+    public Codes fire(String user, int x, int y);
 
     public void run();
 }

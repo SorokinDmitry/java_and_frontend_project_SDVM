@@ -10,28 +10,28 @@ public class  GameSessionImpl implements GameSession {
     private static final int FIELD_ROW_SIZE = 10;
     private static final int FIELD_COL_SIZE = 10;
 
-    private long idUser1;
-    private long idUser2;
+    private String user1;
+    private String user2;
     private Field fieldUser1;
     private Field fieldUser2;
 
-    public long getFirst() {
-        return this.idUser1;
+    public String getFirst() {
+        return this.user1;
     }
 
-    public long getSecond() {
-        return this.idUser2;
+    public String getSecond() {
+        return this.user2;
     }
 
-    public GameSessionImpl(long idUser1, long idUser2) {
-        this.idUser1 = idUser1;
-        this.idUser2 = idUser2;
+    public GameSessionImpl(String user1, String user2) {
+        this.user1 = user1;
+        this.user2 = user2;
         fieldUser1 = null;
         fieldUser2 = null;
     }
 
-    public Codes setShips(long idUser, ArrayList<Ship> ships) {
-        if (!userInSession(idUser))
+    public Codes setShips(String user, ArrayList<Ship> ships) {
+        if (!userInSession(user))
             return Codes.USER_NOT_FOUND;
 
         // If field != null ???
@@ -49,7 +49,7 @@ public class  GameSessionImpl implements GameSession {
             }
         }
 
-        if (idUser == idUser1)
+        if (user == user1)
             fieldUser1 = field;
         else
             fieldUser2 = field;
@@ -57,16 +57,16 @@ public class  GameSessionImpl implements GameSession {
         return Codes.OK;
     }
 
-    public Codes fire(long idUser, int x, int y) {
-        Field field = getField(getIdOpponent(idUser));
+    public Codes fire(String user, int x, int y) {
+        Field field = getField(getIdOpponent(user));
         return field.fire(x, y);
     }
 
-    private int getNumberNotFiredDecks(long idUser) {
-        if (!userInSession(idUser))
+    private int getNumberNotFiredDecks(String user) {
+        if (!userInSession(user))
             return -1;
         Field field;
-        if (idUser == idUser1)
+        if (user.equals(user1))
             field = fieldUser1;
         else
             field = fieldUser2;
@@ -74,38 +74,38 @@ public class  GameSessionImpl implements GameSession {
         return field.getNumberNotFiredDecks();
     }
 
-    private long getIdOpponent(long idUser) {
-        if (!userInSession(idUser))
-            return -1;
-        if (idUser == idUser1)
-            return idUser2;
-        return idUser1;
+    private String getIdOpponent(String user) {
+        if (!userInSession(user))
+            return null;
+        if (user.equals(user1))
+            return user2;
+        return user1;
     }
 
-    public Field getField(long idUser) {
-        if (idUser == idUser1)
+    public Field getField(String user) {
+        if (user.equals(user1))
             return fieldUser1;
-        if (idUser == idUser2)
+        if (user.equals(user2))
             return fieldUser2;
         return null;
     }
 
-    private boolean userInSession(long idUser) {
-        return  (idUser == idUser1) || (idUser == idUser2);
+    private boolean userInSession(String user) {
+        return  (user.equals(user1) || (user.equals(user2)));
     }
 
     public boolean isGameOver() {
-        if (getNumberNotFiredDecks(this.idUser1) == 0) {
+        if (getNumberNotFiredDecks(this.user1) == 0) {
             return true;
         }
-        if (getNumberNotFiredDecks(this.idUser2) == 0) {
+        if (getNumberNotFiredDecks(this.user2) == 0) {
             return true;
         }
         return false;
     }
 
-    public boolean isWinner(long idUser) {
-        if (getNumberNotFiredDecks(getIdOpponent(idUser)) == 0)
+    public boolean isWinner(String user) {
+        if (getNumberNotFiredDecks(getIdOpponent(user)) == 0)
             return true;
         return false;
     }

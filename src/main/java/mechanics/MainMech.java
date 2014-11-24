@@ -22,7 +22,7 @@ public class MainMech {
         }*/
 
 
-        Ship fourDecker1 = new Ship(0, 0, 3, 0);
+        /*Ship fourDecker1 = new Ship(0, 0, 3, 0);
 
         Ship threeDecker1 = new Ship(5, 0, 7, 0);
         Ship threeDecker2 = new Ship(0, 2, 2, 2);
