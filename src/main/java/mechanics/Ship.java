@@ -1,4 +1,4 @@
-package base;
+package mechanics;
 
 /**
  * Created by Vadim on 08.11.14.

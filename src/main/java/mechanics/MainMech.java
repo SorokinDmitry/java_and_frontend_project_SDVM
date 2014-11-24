@@ -1,4 +1,4 @@
-package base;
+package mechanics;
 
 import java.util.*;
 
