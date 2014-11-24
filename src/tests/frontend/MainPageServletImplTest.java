@@ -1,9 +1,9 @@
 package frontend;
 
 import base.AccountService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import servlets.MainPageServletImpl;
 
 import javax.servlet.http.*;
 

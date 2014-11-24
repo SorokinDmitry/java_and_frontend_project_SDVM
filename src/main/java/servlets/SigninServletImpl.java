@@ -1,4 +1,4 @@
-package frontend;
+package servlets;
 
 import base.AccountService;
 import utils.PageGenerator;

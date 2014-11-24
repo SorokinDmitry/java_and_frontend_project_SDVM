@@ -1,4 +1,4 @@
-package frontend;
+package sockets;
 
 import base.UserGame;
 import mechanics.GameMechanics;
@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
+import sockets.WebSocketService;
 
 /**
  * Created by Dmitry on 025 25.10.14.
@@ -30,11 +31,11 @@ public class GameWebSocket {
         return myName;
     }
 
-    public void startGame(UserGame user) {
+    public void startGame(String enemyName) {
         try {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "start");
-            jsonStart.put("enemyName", user.getEnemyName());
+            jsonStart.put("enemyName", enemyName);
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -53,7 +54,18 @@ public class GameWebSocket {
     }
 
     @OnWebSocketMessage
-    public void onMessage(String data)    {
+    public void onMessage(String data) {
+        System.out.println(data);
+        System.out.println(gameMechanics.fire(myName,(int)data.charAt(0)-48,(int)data.charAt(2)-48));
+        JSONObject jsonStart = new JSONObject();
+        jsonStart.put("status", "fire");
+        jsonStart.put("score", "123");
+        try {
+            session.getRemote().sendString(jsonStart.toJSONString());
+        } catch (Exception e) {
+            System.out.print(e.toString());
+        }
+
         /*gameMechanics.incrementScore(myName);*/
     }
 

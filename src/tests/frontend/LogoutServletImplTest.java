@@ -3,6 +3,8 @@ package frontend;
 import base.AccountService;
 import org.junit.Before;
 import org.junit.Test;
+import servlets.LogoutServletImpl;
+
 import javax.servlet.http.*;
 import static org.mockito.Mockito.*;
 

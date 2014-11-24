@@ -1,4 +1,4 @@
-package frontend;
+package sockets;
 
 import base.AccountService;
 import mechanics.GameMechanics;
@@ -26,6 +26,11 @@ public class CustomWebSocketCreator implements WebSocketCreator {
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
         String sessionId = req.getHttpServletRequest().getSession().getId();
         String name = accountService.getUserLoginBySessionId(sessionId);
-        return new GameWebSocket(name, gameMechanics, webSocketService);
+        GameWebSocket result = webSocketService.getWebSocket(name);
+        if (result == null) {
+            result = new GameWebSocket(name, gameMechanics, webSocketService);
+            webSocketService.addUser(result);
+        }
+        return result;
     }
 }

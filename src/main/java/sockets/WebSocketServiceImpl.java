@@ -1,4 +1,4 @@
-package frontend;
+package sockets;
 
 
 import base.UserGame;
@@ -16,6 +16,13 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.put(user.getMyName(), user);
     }
 
+    public GameWebSocket getWebSocket(String login) {
+        if ( userSockets.containsKey(login) )
+            return userSockets.get(login);
+        else
+            return null;
+    }
+
     public void notifyMyNewScore(UserGame user) {
         userSockets.get(user.getMyName()).setMyScore(user);
     }
@@ -24,9 +31,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         userSockets.get(user.getMyName()).setEnemyScore(user);
     }
 
-    public void notifyStartGame(UserGame user) {
-        GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
-        gameWebSocket.startGame(user);
+    public void notifyStartGame(String user1, String user2) {
+        GameWebSocket gameWebSocket1 = userSockets.get(user1);
+        gameWebSocket1.startGame(user2);
+        GameWebSocket gameWebSocket2 = userSockets.get(user2);
+        gameWebSocket2.startGame(user1);
     }
 
     @Override

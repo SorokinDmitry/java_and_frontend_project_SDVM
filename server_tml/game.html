@@ -34,6 +34,10 @@
                    else
                         document.getElementById("win").innerHTML = "loser!";
                 }
+				
+				if(data.status == "fire"){
+                    document.getElementById("myScore").innerHTML = data.score;
+                }
 
                 if(data.status == "increment" && data.name == "${myName}"){
                     document.getElementById("myScore").innerHTML = data.score;
@@ -51,7 +55,9 @@
         };
 
         function sendMessage() {
-            var message = " ";
+			var x = document.getElementById("x").value;
+			var y = document.getElementById("y").value;
+			var message = x + "," + y;
             ws.send(message);
         };
 
@@ -76,6 +82,8 @@
         </div>
 
         <form name="gamePlay" action="">
+			<input type="text" id="x"/>
+			<input type="text" id="y"/>
             <input type="button" name="submit" value="Press to win!" onclick="sendMessage();"/>
         </form>
     </div>

@@ -4,6 +4,8 @@ import base.AccountService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import servlets.ProfileServletImpl;
+
 import javax.servlet.http.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;

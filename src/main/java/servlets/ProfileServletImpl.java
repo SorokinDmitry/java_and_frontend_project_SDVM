@@ -1,4 +1,4 @@
-package frontend;
+package servlets;
 
 import base.AccountService;
 import utils.PageGenerator;
@@ -12,34 +12,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Dmitry on 010 10.11.14.
+ * Created by Dmitry on 027 27.09.14.
  */
-public class GameServlet extends HttpServlet {
+public class ProfileServletImpl extends HttpServlet {
     private AccountService accountService;
-    private int port;
 
-
-    public GameServlet(AccountService accountService, int port) {
+    public ProfileServletImpl(AccountService accountService) {
         this.accountService = accountService;
-        this.port = port;
     }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
         // Получение логина активного пользователя
         String sessionId = request.getSession().getId();
-        String login = null;
+
         if (accountService.haveSession(sessionId)) {
-            login = accountService.getUserLoginBySessionId(sessionId);
-            pageVariables.put("myName", login);
-            pageVariables.put("port", port);
-            response.getWriter().println(PageGenerator.getPage("game.html", pageVariables));
+            String login = accountService.getUserLoginBySessionId(sessionId);
+            Map<String, Object> pageVariables = new HashMap<>();
+            pageVariables.put("login", login);
+            pageVariables.put("email", accountService.getUserEmailBySessionId(sessionId));
+            response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.sendRedirect("/main");
         }
-    }
+        else
+        {
+            response.sendRedirect("/auth/signin");
+        }
+   }
 }
+

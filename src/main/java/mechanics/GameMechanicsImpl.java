@@ -1,6 +1,6 @@
 package mechanics;
 
-import frontend.WebSocketService;
+import sockets.WebSocketService;
 import utils.TimeHelper;
 
 import java.util.*;
@@ -62,8 +62,7 @@ public class GameMechanicsImpl implements GameMechanics {
         GameSession gameSession = createGameSession(user1, user2);
 
         //Вот так должна начинаться игра!
-        //webSocketService.notifyStartGame(gameSession.getSelf(idUser1));
-        //webSocketService.notifyStartGame(gameSession.getSelf(idUser2));
+        webSocketService.notifyStartGame(user1, user2);
     }
 
     private void gmStep() {
