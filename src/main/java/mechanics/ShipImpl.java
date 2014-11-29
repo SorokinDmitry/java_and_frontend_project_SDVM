@@ -35,18 +35,18 @@ public class ShipImpl implements Ship {
     }
 
     private int calculateCountDeck() {
-        if (this.x0 < 0 || this.y0 < 0) {
+        if (x0 < 0 || y0 < 0) {
             countDeck = -1;
             return countDeck;
         }
 
         // The vertical orientation
-        if (this.x0 == this.xn )
-            countDeck = this.yn - this.y0 + 1;
+        if (x0 == xn )
+            countDeck = yn - y0 + 1;
 
         // The horizontal orientation
-        else if (this.y0 == this.yn)
-            countDeck = this.xn - this.x0 + 1;
+        else if (y0 == yn)
+            countDeck = xn - x0 + 1;
 
         else
             this.countDeck = -1;
@@ -55,23 +55,23 @@ public class ShipImpl implements Ship {
     }
 
     public int getX0() {
-        return this.x0;
+        return x0;
     }
 
     public int getY0() {
-        return this.y0;
+        return y0;
     }
 
     public int getXn() {
-        return this.xn;
+        return xn;
     }
 
     public int getYn() {
-        return this.yn;
+        return yn;
     }
 
     public int getCountDeck() {
-        return this.countDeck;
+        return countDeck;
     }
 
 
@@ -80,7 +80,7 @@ public class ShipImpl implements Ship {
     }
 
     public void kill() {
-        this.killed = true;
+        killed = true;
     }
 
     public void addCell(Cell cell) {

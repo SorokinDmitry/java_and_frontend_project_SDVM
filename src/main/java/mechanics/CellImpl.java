@@ -83,5 +83,8 @@ public class CellImpl implements Cell {
         available = true;
         ship = null;
     }
+    public void killShip() {
+        if (ship != null) ship.kill();
+    }
 
 }

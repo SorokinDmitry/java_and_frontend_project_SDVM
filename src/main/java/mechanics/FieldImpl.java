@@ -75,6 +75,9 @@ public class FieldImpl implements Field {
 
         if (status == Codes.DECK || status == Codes.KILLED) {
             numberNotFiredDecks--;
+            if (status == Codes.KILLED)
+                field[x][y].killShip();
+
             if (getNumberNotFiredDecks() == 0)
                 status = Codes.GAME_OVER;
         }
