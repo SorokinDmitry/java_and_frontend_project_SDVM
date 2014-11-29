@@ -1,8 +1,6 @@
 package base;
 
-import mechanics.Codes;
-import mechanics.Field;
-import mechanics.Ship;
+import mechanics.*;
 
 import java.util.ArrayList;
 
@@ -67,6 +65,5 @@ public class UserGameImpl implements UserGame{
     public void setEnemyShips(ArrayList<Ship> ships) {
         this.enemyShips = ships;
     }
-
 
 }

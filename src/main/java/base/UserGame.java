@@ -1,13 +1,12 @@
 package base;
 
-import mechanics.Codes;
-import mechanics.Field;
-import mechanics.Ship;
+import mechanics.*;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dmitry on 025 25.10.14.
+ * Updated by Vadim
  */
 public interface UserGame {
 

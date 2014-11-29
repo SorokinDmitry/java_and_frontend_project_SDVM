@@ -17,7 +17,4 @@ public interface GameSession {
     public Codes fire(UserGame user, int x, int y);
     public Field getField(String user);
     public Codes setShips(String user, ArrayList<Ship> ships);
-
-    //public boolean isWinner(String user);
-    //public boolean isGameOver();
 }

@@ -1,14 +1,10 @@
 package mechanics;
 
-import base.UserGame;
-import org.apache.bcel.classfile.Code;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import sockets.WebSocketService;
-import sockets.WebSocketServiceImpl;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -19,7 +15,6 @@ import static org.mockito.Mockito.*;
  */
 public class GameMechanicsTest {
     WebSocketService webSocketService = mock(WebSocketService.class);
-    GameMechanics gameMechanicsMock = mock(GameMechanics.class);
     GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
     String first = "first.player@mail.ru";
@@ -39,19 +34,19 @@ public class GameMechanicsTest {
 
 
     public ArrayList<Ship> createShips() {
-        Ship fourDecker1 = new Ship(0, 0, 3, 0);
+        Ship fourDecker1 = new ShipImpl(0, 0, 3, 0);
 
-        Ship threeDecker1 = new Ship(5, 0, 7, 0);
-        Ship threeDecker2 = new Ship(0, 2, 2, 2);
+        Ship threeDecker1 = new ShipImpl(5, 0, 7, 0);
+        Ship threeDecker2 = new ShipImpl(0, 2, 2, 2);
 
-        Ship twoDecker1 = new Ship(4, 2, 5, 2);
-        Ship twoDecker2 = new Ship(7, 2, 8, 2);
-        Ship twoDecker3 = new Ship(0, 4, 1, 4);
+        Ship twoDecker1 = new ShipImpl(4, 2, 5, 2);
+        Ship twoDecker2 = new ShipImpl(7, 2, 8, 2);
+        Ship twoDecker3 = new ShipImpl(0, 4, 1, 4);
 
-        Ship oneDecker1 = new Ship(3, 4, 3, 4);
-        Ship oneDecker2 = new Ship(5, 4, 5, 4);
-        Ship oneDecker3 = new Ship(7, 4, 7, 4);
-        Ship oneDecker4 = new Ship(9, 4, 9, 4);
+        Ship oneDecker1 = new ShipImpl(3, 4, 3, 4);
+        Ship oneDecker2 = new ShipImpl(5, 4, 5, 4);
+        Ship oneDecker3 = new ShipImpl(7, 4, 7, 4);
+        Ship oneDecker4 = new ShipImpl(9, 4, 9, 4);
 
         ArrayList<Ship> ships = new ArrayList<>();
         ships.add(fourDecker1);

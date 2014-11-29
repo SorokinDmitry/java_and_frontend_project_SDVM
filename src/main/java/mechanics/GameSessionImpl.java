@@ -18,11 +18,11 @@ public class GameSessionImpl implements GameSession {
     private Field fieldUser2;
 
     public UserGame getFirst() {
-        return this.user1;
+        return user1;
     }
 
     public UserGame getSecond() {
-        return this.user2;
+        return user2;
     }
 
     public GameSessionImpl(UserGame user1, UserGame user2) {
@@ -76,7 +76,7 @@ public class GameSessionImpl implements GameSession {
             return Codes.ERROR;
 
         // Расстановка кораблей
-        Field field = new Field(FIELD_ROW_SIZE, FIELD_COL_SIZE);
+        FieldImpl field = new FieldImpl(FIELD_ROW_SIZE, FIELD_COL_SIZE);
 
         for (Ship ship : ships) {
             if (!field.setShip(ship)) {
@@ -129,10 +129,8 @@ public class GameSessionImpl implements GameSession {
         return  userGame;
     }
 
-
-
+    // The Best method
     private boolean checkCorrectShips(ArrayList<Ship> ships) {
-
         return true;
     }
 
