@@ -1,5 +1,11 @@
 package base;
 
+import mechanics.Codes;
+import mechanics.Field;
+import mechanics.Ship;
+
+import java.util.ArrayList;
+
 /**
  * Created by Dmitry on 025 25.10.14.
  */
@@ -9,13 +15,22 @@ public interface UserGame {
 
     public String getEnemyName();
 
-    public int getMyScore();
+    public Field getMyField();
 
-    public int getEnemyScore();
+    public Field getEnemyField();
 
-    public void incrementMyScore();
+    public Codes fireMyField(int x, int y);
 
-    public void incrementEnemyScore();
+    public Codes fireEnemyField(int x, int y);
+
+    public void setMyField(Field myField);
+
+    public void setEnemyField(Field enemyField);
 
     public void setEnemyName(String enemyName);
+
+    public void setMyShips(ArrayList<Ship> ships);
+
+    public void setEnemyShips(ArrayList<Ship> ships);
+
 }

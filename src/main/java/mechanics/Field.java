@@ -1,5 +1,7 @@
 package mechanics;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vadim on 08.11.14.
  */
@@ -11,6 +13,7 @@ public class Field {
     private int rows;
     private int cols;
     private Cell[][] field;
+    private ArrayList<Ship> ships = new ArrayList<>();
     private int numberNotFiredDecks;
 
     public Field(int rows, int cols) {
@@ -38,17 +41,20 @@ public class Field {
         return field[x][y];
     }
 
+    // ###
     public boolean setShip(Ship ship) {
         int countDeck = ship.getCountDeck();
-        if (countDeck< 0)
+        if (countDeck < 0)
             return false;
 
         for(int i = ship.getY0(); i <= ship.getYn(); ++i) {
             for (int j = ship.getX0(); j <= ship.getXn(); ++j) {
-                if (!field[i][j].isAccessible())
+                if (!field[i][j].isAvailable())
                     return false;
                 field[i][j].setDeck(true);
                 field[i][j].setAccess(false);
+                field[i][j].setShip(ship);
+                ship.addCell(field[i][j]);
                 numberNotFiredDecks++;
             }
         }
@@ -60,6 +66,7 @@ public class Field {
             }
         }
 
+        ships.add(ship);
         return true;
     }
 
@@ -68,18 +75,15 @@ public class Field {
             return Codes.CELL_DOES_NOT_EXIST;
 
         Cell cell = field[x][y];
-        if (cell.isFire())
-            return Codes.IS_FIRED;
+        Codes status = cell.isKilled();
 
-        if (cell.isDeck()) {
-            cell.setFire(true);
+        if (status == Codes.DECK || status == Codes.KILLED) {
             numberNotFiredDecks--;
-            return Codes.DECK;
-
+            if (getNumberNotFiredDecks() == 0)
+                status = Codes.GAME_OVER;
         }
-
         cell.setFire(true);
-        return Codes.EMPTY;
+        return status;
     }
 
     public boolean coordinatesInField(int x, int y) {
@@ -97,7 +101,7 @@ public class Field {
         this.numberNotFiredDecks = 0;
     }
 
-    // В поле field вокруг ячейки base.Cell ячейки отмечаются как access=false;
+    // В поле field вокруг ячейки Cell ячейки отмечаются как available=false;
     private void surroundCell(int x, int y) {
         if (x - 1 > 0) {
             field[x - 1][y].setAccess(false);
@@ -122,33 +126,4 @@ public class Field {
             field[x][y + 1].setAccess(false);
     }
 
-
-
-    // Проверка на победителя
-
-
-    // Метод для отладки
-    public void printField() {
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                int digit = (field[i][j].isDeck()) ? 1 : 0;
-                //int digit = (field[i][j].isAccessible()) ? 1 : 0;
-                System.out.print(digit + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    /*
-    private Ship singleDecker;
-    private Ship twoDecker;
-    private Ship threeDecker;
-    private Ship fourDecker;
-    */
-    /*
-    fourDecker - battleship
-    threeDecker - cruiser
-    twoDecker - destroyer
-    singleDecker - submarine
-     */
 }

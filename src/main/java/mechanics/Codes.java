@@ -3,7 +3,7 @@ package mechanics;
 /**
  * Created by Vadim on 08.11.14.
  */
-enum Codes {
+public enum Codes {
     OK,
     ERROR,                  // При ошибке размещения кораблей
     EMPTY,                  // Мимо
@@ -14,5 +14,6 @@ enum Codes {
     USER_PLAYS,
     USER_NOT_FOUND,
     FIELD_EXIST,
-
+    FIELD_IS_EMPTY,          // Если field == null
+    GAME_OVER                // Если убит последний корабль противника
 }

@@ -1,35 +1,43 @@
 package mechanics;
 
+import base.UserGame;
+
 import java.util.ArrayList;
 
 /**
  * Created by Vadim on 09.11.14.
  */
 
-public class  GameSessionImpl implements GameSession {
+public class GameSessionImpl implements GameSession {
     private static final int FIELD_ROW_SIZE = 10;
     private static final int FIELD_COL_SIZE = 10;
 
-    private String user1;
-    private String user2;
+    private UserGame user1;
+    private UserGame user2;
     private Field fieldUser1;
     private Field fieldUser2;
 
-    public String getFirst() {
+    public UserGame getFirst() {
         return this.user1;
     }
 
-    public String getSecond() {
+    public UserGame getSecond() {
         return this.user2;
     }
 
-    public GameSessionImpl(String user1, String user2) {
+    public GameSessionImpl(UserGame user1, UserGame user2) {
         this.user1 = user1;
         this.user2 = user2;
-        //fieldUser1 = null;
-        //fieldUser2 = null;
 
-        Ship fourDecker1 = new Ship(0, 0, 3, 0);
+        // Это когда-куда?
+        this.user1.setMyField(fieldUser1);
+        this.user1.setEnemyField(fieldUser2);
+        this.user2.setMyField(fieldUser2);
+        this.user2.setEnemyField(fieldUser1);
+
+
+        // HARD CODE
+        /*Ship fourDecker1 = new Ship(0, 0, 3, 0);
 
         Ship threeDecker1 = new Ship(5, 0, 7, 0);
         Ship threeDecker2 = new Ship(0, 2, 2, 2);
@@ -55,22 +63,20 @@ public class  GameSessionImpl implements GameSession {
         ships.add(oneDecker3);
         ships.add(oneDecker4);
 
-        this.setShips(user1, ships);
-        this.setShips(user2, ships);
-
+        this.setShips(user1.getMyName(), ships);
+        this.setShips(user2.getMyName(), ships);*/
     }
 
-    public Codes setShips(String user, ArrayList<Ship> ships) {
-        if (!userInSession(user))
+    public Codes setShips(String emailUser, ArrayList<Ship> ships) {
+        UserGame userGame = getUserGameByEmail(emailUser);
+        if (userGame == null)
             return Codes.USER_NOT_FOUND;
 
-        // If field != null ???
+        if (!checkCorrectShips(ships))
+            return Codes.ERROR;
 
-        // Здесь должна быть проверка на корректность расстановки кораблей
-
-        Field field;
         // Расстановка кораблей
-        field = new Field(FIELD_ROW_SIZE, FIELD_COL_SIZE);
+        Field field = new Field(FIELD_ROW_SIZE, FIELD_COL_SIZE);
 
         for (Ship ship : ships) {
             if (!field.setShip(ship)) {
@@ -79,47 +85,67 @@ public class  GameSessionImpl implements GameSession {
             }
         }
 
-        if (user == user1)
+        if (userGame == user1) {
             fieldUser1 = field;
-        else
+            user1.setMyField(fieldUser1);
+            user1.setMyShips(ships);
+            user2.setEnemyField(fieldUser1);
+            user2.setEnemyShips(ships);
+        }
+        else {
             fieldUser2 = field;
+            user1.setEnemyField(fieldUser2);
+            user1.setEnemyShips(ships);
+            user2.setMyField(fieldUser2);
+            user2.setMyShips(ships);
+        }
 
         return Codes.OK;
     }
 
-    public Codes fire(String user, int x, int y) {
-        Field field = getField(getIdOpponent(user));
+    public Codes fire(UserGame userGame, int x, int y) {
+        Field field = userGame.getEnemyField();
+        if (field == null)
+            return Codes.FIELD_IS_EMPTY;
         return field.fire(x, y);
     }
 
-    private int getNumberNotFiredDecks(String user) {
-        if (!userInSession(user))
-            return -1;
-        Field field;
-        if (user.equals(user1))
-            field = fieldUser1;
-        else
-            field = fieldUser2;
-
-        return field.getNumberNotFiredDecks();
-    }
-
-    private String getIdOpponent(String user) {
-        if (!userInSession(user))
-            return null;
-        if (user.equals(user1))
-            return user2;
-        return user1;
-    }
-
-    public Field getField(String user) {
-        if (user.equals(user1))
+    public Field getField(String emailUser) {
+        if (user1.getMyName().equals(emailUser))
             return fieldUser1;
-        if (user.equals(user2))
+        if (user2.getMyName().equals(emailUser))
             return fieldUser2;
         return null;
     }
 
+    public UserGame getUserGameByEmail(String emailUsr) {
+        UserGame userGame = null;
+        if (user1.getMyName().equals(emailUsr)) {
+            userGame = user1;
+        }
+        else if (user2.getMyName().equals(emailUsr)) {
+            userGame = user2;
+        }
+        return  userGame;
+    }
+
+
+
+    private boolean checkCorrectShips(ArrayList<Ship> ships) {
+
+        return true;
+    }
+
+    /*private UserGame getOpponentGame(String user) {
+        //if (!userInSession(user))
+        //    return null;
+        //if (user.equals(user1))
+        //    return user2;
+        //return user1;
+        return null;
+    }*/
+
+    /*
     private boolean userInSession(String user) {
         return  (user.equals(user1) || (user.equals(user2)));
     }
@@ -140,4 +166,16 @@ public class  GameSessionImpl implements GameSession {
         return false;
     }
 
+
+    /*private int getNumberNotFiredDecks(String user) {
+        if (!userInSession(user))
+            return -1;
+        Field field;
+        if (user.equals(user1))
+            field = fieldUser1;
+        else
+            field = fieldUser2;
+
+        return field.getNumberNotFiredDecks();
+    }*/
 }

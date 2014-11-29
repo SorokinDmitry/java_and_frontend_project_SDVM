@@ -1,5 +1,7 @@
 package mechanics;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vadim on 08.11.14.
  */
@@ -9,6 +11,8 @@ public class Ship {
     private int xn;
     private int yn;
     private int countDeck;
+    private boolean killed;
+    private ArrayList<Cell> cells = new ArrayList<>();
 
     public Ship(int x0, int y0, int xn, int yn) {
         // Ordering coordinates
@@ -27,6 +31,7 @@ public class Ship {
         this.xn = xn;
         this.yn = yn;
         calculateCountDeck();
+        this.killed = false;
     }
 
     private int calculateCountDeck() {
@@ -68,5 +73,20 @@ public class Ship {
     public int getCountDeck() {
         return this.countDeck;
     }
+
+
+    public boolean isKilled() {
+        return this.killed;
+    }
+
+    public void kill() {
+        this.killed = true;
+    }
+
+    public void addCell(Cell cell) {
+        cells.add(cell);
+    }
+
+
 
 }

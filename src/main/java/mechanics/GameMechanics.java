@@ -1,6 +1,8 @@
 package mechanics;
 
 
+import base.UserGame;
+
 import java.util.ArrayList;
 
 /**
@@ -9,9 +11,18 @@ import java.util.ArrayList;
 
 public interface GameMechanics {
 
-    public boolean addUser(String user);
+    public boolean addUser(String emailUser);
 
     public Codes fire(String user, int x, int y);
 
-    public void run();
+    public UserGame getUserGame(String emailUser);
+
+    public Codes setShips(String emailUser, ArrayList<Ship> ships);
+
+    public void closeGame(String emailUser);
+
+    public int getCountGameSessions();
+
+    public int getCountUsersInQueue();
+    //public void run();
 }

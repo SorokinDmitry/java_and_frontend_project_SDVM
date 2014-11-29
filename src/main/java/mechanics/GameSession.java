@@ -1,5 +1,7 @@
 package mechanics;
 
+import base.UserGame;
+
 import java.util.ArrayList;
 
 /**
@@ -7,11 +9,15 @@ import java.util.ArrayList;
  */
 
 public interface GameSession {
-    public String getFirst();
-    public String getSecond();
+    public UserGame getFirst();
+    public UserGame getSecond();
+
+    public UserGame getUserGameByEmail(String emailUsr);
+
+    public Codes fire(UserGame user, int x, int y);
     public Field getField(String user);
     public Codes setShips(String user, ArrayList<Ship> ships);
-    public Codes fire(String user, int x, int y);
-    public boolean isWinner(String user);
-    public boolean isGameOver();
+
+    //public boolean isWinner(String user);
+    //public boolean isGameOver();
 }

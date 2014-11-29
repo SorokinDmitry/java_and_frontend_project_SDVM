@@ -80,7 +80,8 @@ public class GameWebSocket {
         JSONObject jsonStart = new JSONObject();
         jsonStart.put("status", "increment");
         jsonStart.put("name", myName);
-        jsonStart.put("score", user.getMyScore());
+        // Для запуска комменчу
+        //jsonStart.put("score", user.getMyScore());
         try {
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
@@ -92,7 +93,8 @@ public class GameWebSocket {
         JSONObject jsonStart = new JSONObject();
         jsonStart.put("status", "increment");
         jsonStart.put("name", user.getEnemyName());
-        jsonStart.put("score", user.getEnemyScore());
+        // Для запуска комменчу
+        //jsonStart.put("score", user.getEnemyScore());
         try {
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {

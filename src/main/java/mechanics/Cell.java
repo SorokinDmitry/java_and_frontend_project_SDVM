@@ -6,24 +6,27 @@ package mechanics;
 public class Cell {
     private int x;
     private int y;
-    private boolean fire;
+    private boolean fired;
     private boolean deck;
-    private boolean access; // Доступ для размещения кораблей
+    private boolean available; // Доступ для размещения кораблей
+    private Ship ship;
+
 
     public Cell() {
         this.x = -1;
         this.y = -1;
-        this.fire = false;
+        this.fired = false;
         this.deck = false;
-        this.access = true;
+        this.available = true;
+        this.ship = null;
     }
 
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
-        this.fire = false;
+        this.fired = false;
         this.deck = false;
-        this.access = true;
+        this.available = true;
     }
 
 
@@ -47,25 +50,42 @@ public class Cell {
     }
 
 
-    public boolean isFire() {
-        return fire;
+    public boolean isFired() {
+        return fired;
     }
     public boolean isDeck() {
         return deck;
     }
-    public boolean isAccessible() {
-        return access;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setFire(boolean fire) {
-        this.fire = fire;
+    public void setFire(boolean fired) {
+        this.fired = fired;
     }
     public void setDeck(boolean ship) {
         this.deck = ship;
     }
-    public void setAccess(boolean access) {
-        this.access = access;
+    public void setAccess(boolean available) {
+        this.available = available;
+    }
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
+    public Codes isKilled() {
+        if (this.fired == true) {
+            return Codes.IS_FIRED;
+        }
+
+        if (this.deck == true) {
+            if (ship.isKilled()) {
+                return Codes.KILLED;
+            }
+            else return Codes.DECK;
+        }
+
+        return Codes.EMPTY;
+    }
 
 }
