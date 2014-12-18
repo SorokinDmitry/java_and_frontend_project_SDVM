@@ -60,21 +60,40 @@ public class GameWebSocket {
     public void onMessage(String data) throws JSONException {
         org.json.JSONObject jsonObject = new org.json.JSONObject(data);
         System.out.println(data);
-        int a = jsonObject.getInt("x");
-        Codes result = gameMechanics.fire(myName,jsonObject.getInt("x")-1,jsonObject.getInt("y")-1);
-        System.out.println(result);
-        if ( result.equals(Codes.DECK) ) {
-            try {
-                JSONObject json = new JSONObject();
-                json.put("status", "DECK");
-                json.put("x", jsonObject.getInt("x"));
-                json.put("y", jsonObject.getInt("y"));
-                session.getRemote().sendString(json.toJSONString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        if ( jsonObject.getString("action").equals("setShips")) {
+            //Ship ship = new ShipImpl(0,0,1,1);
+            //ArrayList<Ship> ships = new ArrayList<>();
+            //ships.add(ship);
+            //gameMechanics.setShips(myName, ships);
         }
 
+        if ( jsonObject.getString("action").equals("fire")) {
+            Codes result = gameMechanics.fire(myName,jsonObject.getInt("x")-1,jsonObject.getInt("y")-1);
+            System.out.println(result);
+            if ( result.equals(Codes.DECK) ) {
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("status", "DECK");
+                    json.put("x", jsonObject.getInt("x"));
+                    json.put("y", jsonObject.getInt("y"));
+                    session.getRemote().sendString(json.toJSONString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if ( result.equals(Codes.FIELD_IS_EMPTY) ) {
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("status", "EMPTY");
+                    json.put("x", jsonObject.getInt("x"));
+                    json.put("y", jsonObject.getInt("y"));
+                    session.getRemote().sendString(json.toJSONString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @OnWebSocketConnect

@@ -6,5 +6,5 @@
         <button class="fieldBattle__ready">READY</button>
         <a href="/#"><button class="js-back fieldBattle__back"> Back </button></a>
     </div>
-    <script src="js/gameplay.js"></script>
+
 </fest:template>

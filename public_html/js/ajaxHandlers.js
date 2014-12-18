@@ -10,7 +10,10 @@ $(function() {
 			statusCode: {
 				200: function (response) {
 					login = $("form#loginForm input[name='login']").val();
+					password = $("form#loginForm input[name='password']").val();
 					document.cookie = "login = " + login;
+					window.localStorage.setItem("login", login);
+					window.localStorage.setItem("password", password);
 					window.location.hash = "main";
 					console.log("SC_OK");
 				},

@@ -1,4 +1,4 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<fest:template xmlns:fest="http://fest.mail.ru">
     <div class="login">
         <div class="login__title"></div>
         <div class="login__error" id="error"></div>

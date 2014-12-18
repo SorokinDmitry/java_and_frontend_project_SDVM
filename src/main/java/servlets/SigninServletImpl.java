@@ -69,9 +69,10 @@ public class SigninServletImpl extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("error", error);
         JSONObject json = new JSONObject();
-        json.put("error",error);
+        json.put("error", error);
         response.setContentType("application/json");
         response.getWriter().println(json.toString());
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         //response.getWriter().println(PageGenerator.getPage("signin.html", pageVariables));
         //response.setContentType("text/html;charset=utf-8");
     }

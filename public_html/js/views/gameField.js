@@ -4,8 +4,9 @@ define([
 	'models/ship',
 	'collections/yourField',
 	'collections/enemyField',
-	'collections/ships'	
-], function(Backbone, Cell, Ship, field, enemyField, ships){
+	'collections/ships',
+    'gameplay'
+], function(Backbone, Cell, Ship, field, enemyField, ships, gameplay){
 
 	var WIDTH_CANVAS = 1200,
 		HEIGHT_CANVAS = 600,
@@ -65,7 +66,7 @@ define([
 					mouseY > enemyField.get(i).get("y") && 
 					mouseY < enemyField.get(i).get("y") + HEIGHT_CELL
 				) {
-				    fire(i%10+1,(i-i%10)/10+1);
+				    gameplay.fire(i%10+1,(i-i%10)/10+1);
 					//enemyField.get(i).set("value", "miss");
 				}
 			}

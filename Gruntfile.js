@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -cp java_and_frontend_project_SDVM-1.0-jar-with-dependencies.jar main.Main'
+                command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
             }
         },
         fest: {
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-		        watch: {
+		watch: {
             fest: {
                 files: ['templates/*.xml'],
                 tasks: ['fest'],
@@ -46,8 +46,26 @@ module.exports = function (grunt) {
                     interrupt: true,
                     livereload: true /* перезагрузить страницу */
                 }
-            }
+            },
+			sass: {
+                files: [
+                    'src/css/*.scss'
+                ],
+				tasks: ['sass']
+			}
         },
+		sass: {
+				css: { 
+				files: [{
+					expand: true,
+					cwd: 'src/css', 
+					src: '*.scss', 
+					dest: 'public/css', 
+					ext:  '.css'
+				}]
+			}
+		},
+		
 		concurrent: {
             target: ['watch', 'shell'],
             options: {
@@ -55,7 +73,7 @@ module.exports = function (grunt) {
             }
         }
     });
-
+	grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-shell');

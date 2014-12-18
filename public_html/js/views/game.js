@@ -3,8 +3,9 @@ define([
     'tmpl/game',
 	'views/buildField',
 	'views/gameField',
-	'collections/yourField' 
-], function(Backbone, tmpl, build, game, field){
+	'collections/yourField',
+	'gameplay'
+], function(Backbone, tmpl, build, game, field, gameplay){
 
 
     var View = Backbone.View.extend({
@@ -12,7 +13,7 @@ define([
 		template: tmpl,
         className: 'wrap',
 		collection: field,
-		
+
 		events: {
 			"click button.fieldBattle__ready": "ready" 
 		},
@@ -24,6 +25,7 @@ define([
 		
 		ready: function() {
 			this.render_game();
+			gameplay.setShips(0,0,1,1);
 		},
 		
         render_build: function () {
@@ -40,7 +42,7 @@ define([
 		
         show: function () {
             this.$el.show();
-            startGame();
+            gameplay.startGame();
 			this.trigger("show", this);
         },
 		
