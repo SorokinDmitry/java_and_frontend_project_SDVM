@@ -1,14 +1,17 @@
 package sockets;
 
 import base.UserGame;
+import mechanics.Codes;
 import mechanics.GameMechanics;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.JSONException;
 import org.json.simple.JSONObject;
-import sockets.WebSocketService;
+
+import java.io.IOException;
 
 /**
  * Created by Dmitry on 025 25.10.14.
@@ -44,29 +47,34 @@ public class GameWebSocket {
 
     public void gameOver(UserGame user, boolean win) {
         try {
-            JSONObject jsonStart = new JSONObject();
-            jsonStart.put("status", "finish");
-            jsonStart.put("win", win);
-            session.getRemote().sendString(jsonStart.toJSONString());
+            JSONObject json = new JSONObject();
+            json.put("status", "finish");
+            json.put("win", win);
+            session.getRemote().sendString(json.toJSONString());
         } catch (Exception e) {
             System.out.print(e.toString());
         }
     }
 
     @OnWebSocketMessage
-    public void onMessage(String data) {
+    public void onMessage(String data) throws JSONException {
+        org.json.JSONObject jsonObject = new org.json.JSONObject(data);
         System.out.println(data);
-        System.out.println(gameMechanics.fire(myName,(int)data.charAt(0)-48,(int)data.charAt(2)-48));
-        JSONObject jsonStart = new JSONObject();
-        jsonStart.put("status", "fire");
-        jsonStart.put("score", "123");
-        try {
-            session.getRemote().sendString(jsonStart.toJSONString());
-        } catch (Exception e) {
-            System.out.print(e.toString());
+        int a = jsonObject.getInt("x");
+        Codes result = gameMechanics.fire(myName,jsonObject.getInt("x")-1,jsonObject.getInt("y")-1);
+        System.out.println(result);
+        if ( result.equals(Codes.DECK) ) {
+            try {
+                JSONObject json = new JSONObject();
+                json.put("status", "DECK");
+                json.put("x", jsonObject.getInt("x"));
+                json.put("y", jsonObject.getInt("y"));
+                session.getRemote().sendString(json.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        /*gameMechanics.incrementScore(myName);*/
     }
 
     @OnWebSocketConnect
@@ -74,6 +82,7 @@ public class GameWebSocket {
         setSession(session);
         webSocketService.addUser(this);
         gameMechanics.addUser(myName);
+        System.out.print("WebSocketConnect");
     }
 
     public void setMyScore(UserGame user) {

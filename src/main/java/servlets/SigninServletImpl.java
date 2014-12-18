@@ -1,6 +1,7 @@
 package servlets;
 
 import base.AccountService;
+import org.json.simple.JSONObject;
 import utils.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -67,8 +68,11 @@ public class SigninServletImpl extends HttpServlet {
     private void error(HttpServletResponse response, String error) throws IOException {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("error", error);
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.getWriter().println(PageGenerator.getPage("signin.html", pageVariables));
-        response.setContentType("text/html;charset=utf-8");
+        JSONObject json = new JSONObject();
+        json.put("error",error);
+        response.setContentType("application/json");
+        response.getWriter().println(json.toString());
+        //response.getWriter().println(PageGenerator.getPage("signin.html", pageVariables));
+        //response.setContentType("text/html;charset=utf-8");
     }
 }

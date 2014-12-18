@@ -71,7 +71,7 @@ public class GameMechanicsImpl implements GameMechanics {
         GameSession gameSession = createGameSession(userGame1, userGame2);
 
         //Вот тут должна начинаться игра
-        //webSocketService.notifyStartGame(user1, user2);
+        webSocketService.notifyStartGame(user1, user2);
     }
 
     private GameSession createGameSession(UserGame user1, UserGame user2) {
@@ -108,8 +108,6 @@ public class GameMechanicsImpl implements GameMechanics {
             System.out.println(e.toString());
         }
     }
-
-
 
     public int getCountGameSessions() {
         return allGameSessions.size();
