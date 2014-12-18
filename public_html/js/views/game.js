@@ -40,6 +40,7 @@ define([
 		
         show: function () {
             this.$el.show();
+            startGame();
 			this.trigger("show", this);
         },
 		

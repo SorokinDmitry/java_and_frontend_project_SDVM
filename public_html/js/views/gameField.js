@@ -65,7 +65,8 @@ define([
 					mouseY > enemyField.get(i).get("y") && 
 					mouseY < enemyField.get(i).get("y") + HEIGHT_CELL
 				) {
-					enemyField.get(i).set("value", "miss");
+				    fire(i%10+1,(i-i%10)/10+1);
+					//enemyField.get(i).set("value", "miss");
 				}
 			}
 		},
