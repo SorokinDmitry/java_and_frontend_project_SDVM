@@ -47,9 +47,10 @@ public class UsersDAO {
         return exec.execQuery(con, "select * from users where user_login = ?", param, new TResultHandler<UserDataSet>(){
 
             public UserDataSet handle(ResultSet result) throws SQLException {
-                result.next();
-                return new UserDataSet(result.getLong("user_id"), result.getString("user_login"),
-                        result.getString("user_password"), result.getString("user_email"), result.getLong("score"));
+                if (result.next()) {
+                    return new UserDataSet(result.getLong("user_id"), result.getString("user_login"),
+                            result.getString("user_password"), result.getString("user_email"), result.getLong("score"));
+                } else return null;
             }
 
         });
