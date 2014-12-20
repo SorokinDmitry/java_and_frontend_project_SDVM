@@ -3,6 +3,8 @@ package sockets;
 import base.UserGame;
 import mechanics.Codes;
 import mechanics.GameMechanics;
+import mechanics.Ship;
+import mechanics.ShipImpl;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -12,6 +14,7 @@ import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Dmitry on 025 25.10.14.
@@ -62,10 +65,10 @@ public class GameWebSocket {
         System.out.println(data);
 
         if ( jsonObject.getString("action").equals("setShips")) {
-            //Ship ship = new ShipImpl(0,0,1,1);
-            //ArrayList<Ship> ships = new ArrayList<>();
-            //ships.add(ship);
-            //gameMechanics.setShips(myName, ships);
+            Ship ship = new ShipImpl(0,0,0,1);
+            ArrayList<Ship> ships = new ArrayList<>();
+            ships.add(ship);
+            System.out.println(gameMechanics.setShips(myName, ships));
         }
 
         if ( jsonObject.getString("action").equals("fire")) {
@@ -82,7 +85,18 @@ public class GameWebSocket {
                     e.printStackTrace();
                 }
             }
-            if ( result.equals(Codes.FIELD_IS_EMPTY) ) {
+            if ( result.equals(Codes.GAME_OVER) ) {
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("status", "GAME_OVER");
+                    json.put("x", jsonObject.getInt("x"));
+                    json.put("y", jsonObject.getInt("y"));
+                    session.getRemote().sendString(json.toJSONString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if ( result.equals(Codes.EMPTY) ) {
                 try {
                     JSONObject json = new JSONObject();
                     json.put("status", "EMPTY");

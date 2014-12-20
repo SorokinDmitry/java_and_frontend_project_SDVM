@@ -24,6 +24,11 @@ define([
                     enemyField.get(i).set("value", "hurt");
                 }
 
+                if(data.status == "GAME_OVER") {
+                    i = (data.y - 1) * 10 + data.x - 1;
+                    enemyField.get(i).set("value", "hurt");
+                }
+
                 if(data.status == "EMPTY") {
                     i = (data.y - 1) * 10 + data.x - 1;
                     enemyField.get(i).set("value", "miss");
