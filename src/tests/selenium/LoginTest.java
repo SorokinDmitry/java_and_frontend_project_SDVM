@@ -14,14 +14,15 @@ public class LoginTest  {
     public void test() {
         testLogin("http://localhost:8090/auth/signin", "dmitr", "123");
     }
+
     public void testLogin(@NotNull String url,@NotNull String username,@NotNull String password) {
         WebDriver driver = new HtmlUnitDriver(true);
         driver.get(url);
 // Find the text input element by its name
         WebElement elementUsername = driver.findElement(By.name("login"));
-                elementUsername.sendKeys(username);
+        elementUsername.sendKeys(username);
         WebElement elementPassword = driver.findElement(By.name("password"));
-                elementPassword.sendKeys(password);
+        elementPassword.sendKeys(password);
 // Now submit the form. WebDriver will find the form for us from the element
         elementUsername.submit();
         //elementPassword.submit();

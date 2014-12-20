@@ -12,9 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SignupServletImplTest {
     final private HttpServletRequest request = mock(HttpServletRequest.class);
@@ -90,5 +88,13 @@ public class SignupServletImplTest {
         // System.out.append(st);
         Assert.assertTrue(st.contains("uncorrect login"));
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+    }
+
+    @Test
+    public void testDoPostHaveSessionTrue() throws Exception {
+        when(request.getSession().getId()).thenReturn("id1");
+        when(accountService.haveSession("id1")).thenReturn(true);
+        signupServlet.doPost(request, response);
+        verify(accountService, atLeastOnce()).deleteSession("id1");
     }
 }
