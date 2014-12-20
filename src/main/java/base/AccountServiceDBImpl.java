@@ -10,13 +10,22 @@ import java.util.Map;
  */
 public class AccountServiceDBImpl implements AccountService {
     private DatabaseService databaseService;
-    private Map<String, String> usersSessions = new HashMap<String, String>();
+    private Map<String, String> sessionIdByLogin = new HashMap<String, String>();
     private Map<String, UserDataSet> sessions = new HashMap<String, UserDataSet>();
 
     public AccountServiceDBImpl(DatabaseService databaseService) {
         this.databaseService = databaseService;
         addUser("admin","admin","admin@admin.ru");
         addUser("dmitr","123","sorokin.dmitr@yandex.ru");
+    }
+
+    private boolean checkLogin(String login) {
+        return sessionIdByLogin.containsKey(login);
+    }
+
+    private void removeSession(String login) {
+        sessions.remove(sessionIdByLogin.get(login));
+        sessionIdByLogin.remove(login);
     }
 
     public boolean addUser(String login, String password, String email) {
@@ -33,19 +42,17 @@ public class AccountServiceDBImpl implements AccountService {
         if ( !haveUser(login) )
             return false;
         UserDataSet user;
-        if ( usersSessions.containsKey(login) ) {
-            user = sessions.get(usersSessions.get(login));
-            sessions.remove(usersSessions.get(login));
-            usersSessions.remove(login);
+        if ( checkLogin(login) ) {
+            user = sessions.get(sessionIdByLogin.get(login));
+            removeSession(login);
         } else {
             if ( sessions.containsKey(id) ) {
-                usersSessions.remove(sessions.get(id).getLogin());
-                sessions.remove(id);
+                return false; // сделать enum
             }
             user = databaseService.getUser(login);
         }
         sessions.put(id, user);
-        usersSessions.put(login, id);
+        sessionIdByLogin.put(login, id);
         return true;
     }
 
@@ -58,7 +65,7 @@ public class AccountServiceDBImpl implements AccountService {
     }
 
     public void deleteSession(String id) {
-        usersSessions.remove(sessions.get(id).getLogin());
+        sessionIdByLogin.remove(sessions.get(id).getLogin());
         sessions.remove(id);
     }
 
