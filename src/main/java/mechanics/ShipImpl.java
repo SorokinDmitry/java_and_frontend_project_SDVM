@@ -49,7 +49,7 @@ public class ShipImpl implements Ship {
             countDeck = xn - x0 + 1;
 
         else
-            this.countDeck = -1;
+            countDeck = -1;
 
         return countDeck;
     }
@@ -76,7 +76,7 @@ public class ShipImpl implements Ship {
 
 
     public boolean isKilled() {
-        return this.killed;
+        return killed;
     }
 
     public void kill() {

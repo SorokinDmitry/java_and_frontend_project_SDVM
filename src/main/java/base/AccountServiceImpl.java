@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
             return false;
         } else {
             UserProfile user = new UserProfile(login, password, email);
-            this.users.put(login, user);
+            users.put(login, user);
             return true;
         }
     }
@@ -31,25 +31,25 @@ public class AccountServiceImpl implements AccountService {
     public boolean addSession(String id, String login) {
         if ( !users.containsKey(login) )
             return false;
-        if ( this.usersId.containsKey(login) ) {
-            this.sessions.remove(this.usersId.get(login));
-            this.usersId.remove(login);
+        if ( usersId.containsKey(login) ) {
+            sessions.remove(usersId.get(login));
+            usersId.remove(login);
         }
-        this.sessions.put(id, users.get(login));
-        this.usersId.put(login, id);
+        sessions.put(id, users.get(login));
+        usersId.put(login, id);
         return true;
     }
 
     public int getCountOfUsers() {
-        return this.users.size();
+        return users.size();
     }
 
     public int getCountOfSessions() {
-        return this.sessions.size();
+        return sessions.size();
     }
 
     public void deleteSession(String id) {
-        this.sessions.remove(id);
+        sessions.remove(id);
     }
 
     public boolean haveSession(String id) {

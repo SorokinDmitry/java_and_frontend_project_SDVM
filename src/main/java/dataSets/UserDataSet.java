@@ -30,30 +30,30 @@ public class UserDataSet {
     }
 
     public UserDataSet(String login, String password, String email) {
-        this.id = -1;
+        id = -1;
         this.login = login;
         this.password = password;
         this.email = email;
-        this.score = 0;
+        score = 0;
     }
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public String getLogin() {
-        return this.login;
+        return login;
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public long getScore() {
-        return this.score;
+        return score;
     }
 }

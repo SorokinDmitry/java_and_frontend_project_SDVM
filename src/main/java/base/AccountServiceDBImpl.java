@@ -30,22 +30,22 @@ public class AccountServiceDBImpl implements AccountService {
     }
 
     public boolean addSession(String id, String login) {
-        if ( !this.haveUser(login) )
+        if ( !haveUser(login) )
             return false;
         UserDataSet user;
-        if ( this.usersSessions.containsKey(login) ) {
-            user = sessions.get(this.usersSessions.get(login));
-            this.sessions.remove(this.usersSessions.get(login));
-            this.usersSessions.remove(login);
+        if ( usersSessions.containsKey(login) ) {
+            user = sessions.get(usersSessions.get(login));
+            sessions.remove(usersSessions.get(login));
+            usersSessions.remove(login);
         } else {
-            if ( this.sessions.containsKey(id) ) {
-                this.usersSessions.remove(this.sessions.get(id).getLogin());
-                this.sessions.remove(id);
+            if ( sessions.containsKey(id) ) {
+                usersSessions.remove(sessions.get(id).getLogin());
+                sessions.remove(id);
             }
             user = databaseService.getUser(login);
         }
-        this.sessions.put(id, user);
-        this.usersSessions.put(login, id);
+        sessions.put(id, user);
+        usersSessions.put(login, id);
         return true;
     }
 
@@ -54,12 +54,12 @@ public class AccountServiceDBImpl implements AccountService {
     }
 
     public int getCountOfSessions() {
-        return this.sessions.size();
+        return sessions.size();
     }
 
     public void deleteSession(String id) {
-        this.usersSessions.remove(this.sessions.get(id).getLogin());
-        this.sessions.remove(id);
+        usersSessions.remove(sessions.get(id).getLogin());
+        sessions.remove(id);
     }
 
     public boolean haveSession(String id) {

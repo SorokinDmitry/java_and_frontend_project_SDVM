@@ -23,11 +23,11 @@ public class UserGameImpl implements UserGame{
     }
 
     public String getMyName() {
-        return this.myName;
+        return myName;
     }
 
     public String getEnemyName() {
-        return this.enemyName;
+        return enemyName;
     }
 
     public void setEnemyName(String enemyName) {
@@ -35,7 +35,7 @@ public class UserGameImpl implements UserGame{
     }
 
     public Field getMyField() {
-        return this.myField;
+        return myField;
     }
 
     public void setMyField(Field myField) {
@@ -47,7 +47,7 @@ public class UserGameImpl implements UserGame{
     }
 
     public Field getEnemyField() {
-        return this.enemyField;
+        return enemyField;
     }
 
     public Codes fireMyField(int x, int y) {
@@ -59,11 +59,11 @@ public class UserGameImpl implements UserGame{
     }
 
     public void setMyShips(ArrayList<Ship> ships) {
-        this.myShips = ships;
+        myShips = ships;
     }
 
     public void setEnemyShips(ArrayList<Ship> ships) {
-        this.enemyShips = ships;
+        enemyShips = ships;
     }
 
 }

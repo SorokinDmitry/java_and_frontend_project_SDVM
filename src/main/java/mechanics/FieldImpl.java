@@ -16,7 +16,7 @@ public class FieldImpl implements Field {
     public FieldImpl(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.numberNotFiredDecks = 0;
+        numberNotFiredDecks = 0;
 
         // Или CellImpl ?
         field = new Cell[rows][cols];

@@ -11,12 +11,12 @@ public class ServerResources implements Serializable {
     private String db_name;
 
     public ServerResources() {
-        this.port = 8080;
+        port = 8080;
         db_name = "FORUMS_TP";
     }
 
     public ServerResources(int port) {
-        this.setPort(port);
+        setPort(port);
     }
 
     public void setPort(int port) {
@@ -24,7 +24,7 @@ public class ServerResources implements Serializable {
     }
 
     public int getPort() {
-        return this.port;
+        return port;
     }
 
     public String getDb_name() {

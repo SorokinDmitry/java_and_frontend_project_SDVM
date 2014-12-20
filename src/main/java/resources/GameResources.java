@@ -11,8 +11,8 @@ public class GameResources implements Serializable {
     private int countOfShips;
 
     public GameResources() {
-        this.fieldSize = 10;
-        this.countOfShips = 10;
+        fieldSize = 10;
+        countOfShips = 10;
     }
 
     public GameResources(int fieldSize, int countOfShips) {
@@ -25,7 +25,7 @@ public class GameResources implements Serializable {
     }
 
     public int getCountOfShips() {
-        return this.countOfShips;
+        return countOfShips;
     }
 
     public void setCountOfShips(int fieldSize) {
@@ -33,7 +33,7 @@ public class GameResources implements Serializable {
     }
 
     public int getFieldSize() {
-        return this.fieldSize;
+        return fieldSize;
     }
 
     public String toString() {

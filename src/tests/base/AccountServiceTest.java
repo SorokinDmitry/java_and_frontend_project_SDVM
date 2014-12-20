@@ -45,7 +45,7 @@ public class AccountServiceTest {
     private UserDataSet[] addUsers(int cnt) {
         UserDataSet[] userProfiles = new UserDataSet[cnt];
         for (Integer i = 0; i < cnt; i++) {
-            userProfiles[i] = this.userDataSets[i];
+            userProfiles[i] = userDataSets[i];
             String username = userProfiles[i].getLogin();
             String password = userProfiles[i].getPassword();
             String email = userProfiles[i].getEmail();

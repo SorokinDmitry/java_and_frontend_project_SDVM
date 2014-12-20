@@ -14,9 +14,9 @@ public class CellImpl implements Cell {
     public CellImpl(int x, int y) {
         this.x = x;
         this.y = y;
-        this.fired = false;
-        this.deck = false;
-        this.available = true;
+        fired = false;
+        deck = false;
+        available = true;
     }
 
     public int getX() {
