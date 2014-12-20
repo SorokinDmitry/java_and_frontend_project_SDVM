@@ -16,6 +16,7 @@ public class PreparedTExecutor {
                            TResultHandler<T> handler)
             throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(query);
+
         for (int i = 0; i < params.size(); i++){
             stmt.setObject(i + 1, params.get(i));
         }

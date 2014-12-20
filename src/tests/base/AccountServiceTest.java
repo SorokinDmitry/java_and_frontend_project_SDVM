@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class AccountServiceTest {
     static private DatabaseService databaseService = new DBServiceImpl();
     static private AccountService accountService = new AccountServiceDBImpl(databaseService);
-    dataSets.UserDataSet[] userDataSets;
+    UserDataSet[] userDataSets;
 
     @Before
     public void setUp() throws Exception {
@@ -35,7 +35,7 @@ public class AccountServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        for (dataSets.UserDataSet user : userDataSets) {
+        for (UserDataSet user : userDataSets) {
             if (accountService.haveUser(user.getLogin())) {
                 databaseService.deleteUser(user.getLogin());
             }
@@ -133,7 +133,7 @@ public class AccountServiceTest {
         String unregisteredLogin = "logind677hjtf";
         assertEquals(false, accountService.haveUser(unregisteredLogin));
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", unregisteredLogin);
+        accountService.addSession("1sddtyfuk", unregisteredLogin);
         int after = accountService.getCountOfSessions();
         assertEquals(0, after - before);
     }
@@ -142,8 +142,8 @@ public class AccountServiceTest {
     public void testAddSameIdSession() throws Exception {
         UserDataSet[] userProfiles = addUsers(2);
         int before = accountService.getCountOfSessions();
-        accountService.addSession("1", userProfiles[0].getLogin());
-        accountService.addSession("1", userProfiles[1].getLogin());
+        accountService.addSession("1dfgg", userProfiles[0].getLogin());
+        accountService.addSession("1dfgg", userProfiles[1].getLogin());
         int after = accountService.getCountOfSessions();
         assertEquals(1, after - before);
     }

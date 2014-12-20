@@ -22,11 +22,6 @@ public class DBServiceImpl implements DatabaseService {
        this.usersDAO = new UsersDAO(connection);
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        connection.close();
-        super.finalize();
-    }
 
     public static Connection getConnection() {
         try{
