@@ -14,7 +14,7 @@ import java.io.StringWriter;
 
 import static org.mockito.Mockito.*;
 
-public class SignupServletImplTest {
+public class SignupServletImplTest extends AssertResponse {
     final private HttpServletRequest request = mock(HttpServletRequest.class);
     final private HttpServletResponse response = mock(HttpServletResponse.class);
     final private HttpSession httpSession = mock(HttpSession.class);
@@ -28,10 +28,6 @@ public class SignupServletImplTest {
     private String password = "password";
     private String email = "email@mail.ru";
 
-    private void check(){
-        verify(response).setContentType("text/html;charset=utf-8");
-        verify(response).setStatus(HttpServletResponse.SC_OK);
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -46,8 +42,8 @@ public class SignupServletImplTest {
     @Test
     public void testDoGetHaveSessionFalse() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(false);
-        signupServlet.doGet(request,response);
-        check();
+        signupServlet.doGet(request, response);
+        assertResponseOk(response);
         String st = stringWrite.toString();
         Assert.assertTrue(st.contains("Registration Form"));
     }
@@ -66,7 +62,7 @@ public class SignupServletImplTest {
         signupServlet.doPost(request, response);
         //verify(accountService).addUser(login, password, email);
         verify(accountService).addSession(sessionId, login);
-        check();
+        assertResponseOk(response);
         verify(response).sendRedirect("/main");
     }
 

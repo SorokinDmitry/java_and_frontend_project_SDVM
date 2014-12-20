@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 
-public class MainPageServletImplTest {
+public class MainPageServletImplTest extends AssertResponse {
     final private HttpServletRequest request = mock(HttpServletRequest.class);
     final private HttpServletResponse response = mock(HttpServletResponse.class);
     final private HttpSession httpSession = mock(HttpSession.class);
@@ -25,11 +25,6 @@ public class MainPageServletImplTest {
 
     private String sessionId = "sessionId";
     private String login = "login1";
-
-    private void check(){
-        verify(response).setContentType("text/html;charset=utf-8");
-        verify(response).setStatus(HttpServletResponse.SC_OK);
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -43,7 +38,7 @@ public class MainPageServletImplTest {
         when(accountService.haveSession(sessionId)).thenReturn(true);
         when(accountService.getUserLoginBySessionId(sessionId)).thenReturn(login);
         mainPageServlet.doGet(request,response);
-        check();
+        assertResponseOk(response);
         String st = stringWrite.toString();
         verify(accountService).getUserLoginBySessionId(sessionId);
         assertTrue(st.contains("<!DOCTYPE html>"));
@@ -54,7 +49,7 @@ public class MainPageServletImplTest {
     public void testDoGetHaveSessionFalse() throws Exception {
         when(accountService.haveSession(sessionId)).thenReturn(false);
         mainPageServlet.doGet(request, response);
-        check();
+        assertResponseOk(response);
         verify(accountService,never()).getUserLoginBySessionId(sessionId);
         String st = stringWrite.toString();
         assertTrue(st.contains("<!DOCTYPE html>"));

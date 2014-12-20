@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import static org.mockito.Mockito.*;
 
-public class ProfileServletImplTest {
+public class ProfileServletImplTest extends AssertResponse {
     final private static HttpServletRequest request = mock(HttpServletRequest.class);
     final private static HttpServletResponse response = mock(HttpServletResponse.class);
     final private static HttpSession httpSession = mock(HttpSession.class);
@@ -24,10 +24,7 @@ public class ProfileServletImplTest {
     private String login = "login1";
     private String email = "email@mail.ru";
 
-    private void check(){
-        verify(response).setContentType("text/html;charset=utf-8");
-        verify(response).setStatus(HttpServletResponse.SC_OK);
-    }
+
 
     @Before
     public void setUp() throws Exception {
@@ -42,7 +39,7 @@ public class ProfileServletImplTest {
         when(accountService.getUserLoginBySessionId(sessionId)).thenReturn(login);
         when(accountService.getUserEmailBySessionId(sessionId)).thenReturn(email);
         profileServlet.doGet(request,response);
-        check();
+        assertResponseOk(response);
         String st = stringWrite.toString();
         //System.out.append(st);
         //Assert.assertTrue(st.contains("<!DOCTYPE html>"));

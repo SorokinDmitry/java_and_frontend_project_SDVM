@@ -10,7 +10,7 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 
 public class AccountServiceTest {
-    static private DatabaseService databaseService = new DBServiceImpl();
+    static private DatabaseService databaseService = new DBServiceImpl("TEST_EPICGAME_TP");
     static private AccountService accountService = new AccountServiceDBImpl(databaseService);
     UserDataSet[] userDataSets;
 

@@ -33,7 +33,7 @@ public class Main {
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        DatabaseService databaseService = new DBServiceImpl();
+        DatabaseService databaseService = new DBServiceImpl(res.getDb_name());
         AccountService accountService = new AccountServiceDBImpl(databaseService);
         WebSocketService webSocketService = new WebSocketServiceImpl();
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);

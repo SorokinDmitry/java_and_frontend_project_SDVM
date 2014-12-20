@@ -7,15 +7,15 @@ import base.UserGame;
  */
 public interface WebSocketService {
 
-    public void addUser(GameWebSocket user);
+    void addUser(GameWebSocket user);
 
-    public GameWebSocket getWebSocket(String login);
+    GameWebSocket getWebSocket(String login);
 
-    public void notifyMyNewScore(UserGame user);
+    void notifyMyNewScore(UserGame user);
 
-    public void notifyEnemyNewScore(UserGame user);
+    void notifyEnemyNewScore(UserGame user);
 
-    public void notifyStartGame(String user1, String user2);
+    void notifyStartGame(String user1, String user2);
 
-    public void notifyGameOver(UserGame user, boolean win);
+    void notifyGameOver(UserGame user, boolean win);
 }
