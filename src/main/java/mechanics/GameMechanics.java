@@ -11,18 +11,18 @@ import java.util.ArrayList;
 
 public interface GameMechanics {
 
-    public boolean addUser(String emailUser);
+    boolean addUser(String emailUser);
 
-    public Codes fire(String user, int x, int y);
+    Codes fire(String user, int x, int y);
 
-    public UserGame getUserGame(String emailUser);
+    UserGame getUserGame(String emailUser);
 
-    public Codes setShips(String emailUser, ArrayList<Ship> ships);
+    Codes setShips(String emailUser, ArrayList<Ship> ships);
 
-    public void closeGame(String emailUser);
+    void closeGame(String emailUser);
 
-    public int getCountGameSessions();
+    int getCountGameSessions();
 
-    public int getCountUsersInQueue();
+    int getCountUsersInQueue();
     //public void run();
 }

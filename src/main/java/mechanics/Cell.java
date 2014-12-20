@@ -5,24 +5,23 @@ package mechanics;
  */
 
 public interface Cell {
-    public int getX();
-    public void setX(int x);
+    int getX();
+    void setX(int x);
 
-    public int getY();
-    public void setY(int y);
+    int getY();
+    void setY(int y);
 
-    public void setXY(int x, int y);
+    void setXY(int x, int y);
 
-    public boolean isFired();
-    public boolean isDeck();
-    public boolean isAvailable();
+    boolean isFired();
+    boolean isDeck();
+    boolean isAvailable();
+    void setFire(boolean fired);
+    void setDeck(boolean ship);
+    void setAccess(boolean available);
+    void setShip(Ship ship);
 
-    public void setFire(boolean fired);
-    public void setDeck(boolean ship);
-    public void setAccess(boolean available);
-    public void setShip(Ship ship);
-
-    public Codes isKilled();
-    public void clearCell();
-    public void killShip();
+    Codes isKilled();
+    void clearCell();
+    void killShip();
 }

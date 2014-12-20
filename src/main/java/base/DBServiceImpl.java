@@ -17,13 +17,13 @@ public class DBServiceImpl implements DatabaseService {
     private Connection connection;
     private UsersDAO usersDAO;
 
-    public DBServiceImpl() {
-        this.connection = getConnection();
+    public DBServiceImpl(String db_name) {
+        this.connection = getConnection(db_name);
        this.usersDAO = new UsersDAO(connection);
     }
 
 
-    public static Connection getConnection() {
+    public static Connection getConnection(String db_name) {
         try{
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
 
@@ -33,7 +33,7 @@ public class DBServiceImpl implements DatabaseService {
                     append("jdbc:mysql://").		//db type
                     append("localhost:"). 			//host name
                     append("3306/").				//port
-                    append("EPICGAME_TP");			//db name
+                    append(db_name);			//db name
 
             Properties properties=new Properties();
             properties.setProperty("user","java_game_user");

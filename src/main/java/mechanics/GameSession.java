@@ -9,12 +9,12 @@ import java.util.ArrayList;
  */
 
 public interface GameSession {
-    public UserGame getFirst();
-    public UserGame getSecond();
+    UserGame getFirst();
+    UserGame getSecond();
 
-    public UserGame getUserGameByEmail(String emailUsr);
+    UserGame getUserGameByEmail(String emailUsr);
 
-    public Codes fire(UserGame user, int x, int y);
-    public Field getField(String user);
-    public Codes setShips(String user, ArrayList<Ship> ships);
+    Codes fire(UserGame user, int x, int y);
+    Field getField(String user);
+    Codes setShips(String user, ArrayList<Ship> ships);
 }
