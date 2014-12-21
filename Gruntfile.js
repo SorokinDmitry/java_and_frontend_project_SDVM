@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+                command: 'java -cp java_and_frontend_project_SDVM-1.0-jar-with-dependencies.jar main.Main 8080'
             }
         },
         fest: {
@@ -39,12 +39,12 @@ module.exports = function (grunt) {
             },
 			server: {
                 files: [
-                    'public_html/js/**/*.js', /* следим за статикой */
+                    'public_html/js/**/*.js', /* Г±Г«ГҐГ¤ГЁГ¬ Г§Г  Г±ГІГ ГІГЁГЄГ®Г© */
                     'public_html/css/**/*.css'
                 ],
                 options: {
                     interrupt: true,
-                    livereload: true /* перезагрузить страницу */
+                    livereload: true /* ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЁГІГј Г±ГІГ°Г Г­ГЁГ¶Гі */
                 }
             },
 			sass: {
