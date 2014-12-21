@@ -10,6 +10,6 @@ public interface DatabaseService {
     UserDataSet getUser(String login);
     long countOfUsers();
     boolean checkUserRegistered(String login);
-    void deleteUser(String login);
+    void deleteAllUsers();
 //    boolean checkUserPassword (String login, String password);
 }

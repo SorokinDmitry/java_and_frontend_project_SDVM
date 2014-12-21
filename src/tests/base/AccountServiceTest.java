@@ -1,13 +1,9 @@
 package base;
 
-import frontend.AssertResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import dataSets.UserDataSet;
-
 import java.util.Random;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -224,5 +220,4 @@ public class AccountServiceTest {
         String uncorrectSessionId = sessions[0].toString()+"123";
         assertEquals(null,accountService.getUserLoginBySessionId(uncorrectSessionId));
     }
-
 }

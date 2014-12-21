@@ -18,8 +18,8 @@ public class DBServiceImpl implements DatabaseService {
     private UsersDAO usersDAO;
 
     public DBServiceImpl(String db_name) {
-        this.connection = getConnection(db_name);
-       this.usersDAO = new UsersDAO(connection);
+        connection = getConnection(db_name);
+        usersDAO = new UsersDAO(connection);
     }
 
 
@@ -45,8 +45,7 @@ public class DBServiceImpl implements DatabaseService {
             //     append("");
             System.out.append("URL: " + url + "\n");
 
-            Connection connection = DriverManager.getConnection(url.toString(), properties);
-            return connection;
+            return DriverManager.getConnection(url.toString(), properties);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -72,8 +71,7 @@ public class DBServiceImpl implements DatabaseService {
 
     public UserDataSet getUser(String login) {
         try {
-            UserDataSet user = usersDAO.get(login);
-            return user;
+            return usersDAO.get(login);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,8 +80,7 @@ public class DBServiceImpl implements DatabaseService {
 
     public long countOfUsers() {
         try {
-            long cnt =  usersDAO.count();
-            return cnt;
+            return usersDAO.count();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,17 +89,16 @@ public class DBServiceImpl implements DatabaseService {
 
     public boolean checkUserRegistered(String login) {
         try {
-            boolean res =  usersDAO.contains(login);
-            return res;
+            return usersDAO.contains(login);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public void deleteUser(String login) {
+    public void deleteAllUsers() {
         try {
-            usersDAO.remove(login);
+            usersDAO.truncate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

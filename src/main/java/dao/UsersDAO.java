@@ -81,10 +81,9 @@ public class UsersDAO {
         }));
     }
 
-    public void remove(String login) throws SQLException {
+    public void truncate() throws SQLException {
         ArrayList <Object> param = new ArrayList<>();
-        param.add(login);
-        String update = "delete from users where user_login = ?";
+        String update = "TRUNCATE TABLE users";
         exec.execUpdate(con, update, param);
     }
 }
