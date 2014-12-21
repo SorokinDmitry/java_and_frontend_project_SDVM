@@ -30,6 +30,9 @@ public class Main {
         ServerResources res = ResourceFactory.getInstance().getServerResources();
 
         int port = res.getPort();
+        if (args.length > 0) {
+            port = new Integer(args[0]);
+        }
 
         System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 

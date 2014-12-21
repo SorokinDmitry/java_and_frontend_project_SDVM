@@ -20,7 +20,8 @@ define([
 		
         initialize: function () {
 			$('body').append(this.el);
-			this.render_build();			
+			this.render_build();
+			this.hide();
         },
 		
 		ready: function() {

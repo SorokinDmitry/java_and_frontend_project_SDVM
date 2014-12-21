@@ -13,6 +13,7 @@ define([
         initialize: function () {
 			$('body').append(this.el);
 			this.render();
+            this.hide();
         },
 		
         render: function () {

@@ -17,11 +17,11 @@ define([
         },
 		
 		initialize : function() {
-			console.log("3");
 			viewManager.addView(gameScreen);
 			viewManager.addView(scoreboardScreen);
 			viewManager.addView(mainScreen);
 			viewManager.addView(loginScreen);
+            $('#loader').hide();
 		},
 		
         defaultActions: function () {
