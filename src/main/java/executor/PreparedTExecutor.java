@@ -15,15 +15,15 @@ public class PreparedTExecutor {
                            String query, ArrayList params,
                            TResultHandler<T> handler)
             throws SQLException {
-        PreparedStatement stmt = connection.prepareStatement(query);
-
-        for (int i = 0; i < params.size(); i++){
-            stmt.setObject(i + 1, params.get(i));
+        T value;
+        try(PreparedStatement stmt = connection.prepareStatement(query)) {
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+            try(ResultSet result = stmt.executeQuery()) {
+                value = handler.handle(result);
+            }
         }
-        ResultSet result = stmt.executeQuery();
-        T value = handler.handle(result);
-        result.close();
-        stmt.close();
         return value;
     }
 

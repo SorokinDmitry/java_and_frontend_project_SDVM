@@ -38,22 +38,22 @@ public class UserDataSet {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getLogin() {
-        return login;
+        return this.login;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public long getScore() {
-        return score;
+        return this.score;
     }
 }
