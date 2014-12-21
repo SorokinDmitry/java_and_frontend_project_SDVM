@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -11,7 +12,7 @@
         var enemyName = "";
 
         init = function () {
-            ws = new WebSocket("ws://localhost:8090/gameplay");
+            ws = new WebSocket("ws://localhost:${port}/gameplay");
 
             ws.onopen = function (event) {
 

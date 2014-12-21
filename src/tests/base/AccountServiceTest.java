@@ -1,5 +1,6 @@
 package base;
 
+import frontend.AssertResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,37 +9,27 @@ import dataSets.UserDataSet;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
-    static private DatabaseService databaseService = new DBServiceImpl("TEST_EPICGAME_TP");
-    static private AccountService accountService = new AccountServiceDBImpl(databaseService);
-    UserDataSet[] userDataSets;
+    final private DatabaseService databaseService = mock(DatabaseService.class);
+    private AccountService accountService = new AccountServiceDBImpl(databaseService);
+    private UserDataSet[] userDataSets;
+    private String login = "login";
+    private String password = "password";
+    private String email = "e@mail.ru";
+
 
     @Before
     public void setUp() throws Exception {
+        when(databaseService.checkUserRegistered(anyString())).thenReturn(false);
         userDataSets = new dataSets.UserDataSet[2];
-        Random rnd = new Random();
         for (Integer i = 0; i < userDataSets.length; i++) {
-            StringBuilder username;
-            do {
-                username = new StringBuilder("user");
-                Integer n = rnd.nextInt(10000);
-                username.append(n.toString());
-            } while (accountService.haveUser(username.toString()));
-            String password = "pass";
-            password += i.toString();
-            String email = "email";
-            email += i.toString() + "@mail.ru";
-            userDataSets[i] = new dataSets.UserDataSet(username.toString(), password, email);
-        }
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        for (UserDataSet user : userDataSets) {
-            if (accountService.haveUser(user.getLogin())) {
-                databaseService.deleteUser(user.getLogin());
-            }
+            String username = "user" + i.toString();
+            String password = "pass" + i.toString();
+            String email = "email" + i.toString() + "@mail.ru";
+            userDataSets[i] = new dataSets.UserDataSet(username, password, email);
         }
     }
 
@@ -47,10 +38,10 @@ public class AccountServiceTest {
         for (Integer i = 0; i < cnt; i++) {
             userProfiles[i] = userDataSets[i];
             String username = userProfiles[i].getLogin();
-            String password = userProfiles[i].getPassword();
-            String email = userProfiles[i].getEmail();
-            accountService.addUser(username, password, email);
+            when(databaseService.getUser(username)).thenReturn(userProfiles[i]);
+            when(databaseService.checkUserRegistered(username)).thenReturn(true);
         }
+        when(databaseService.countOfUsers()).thenReturn((long)cnt);
         return userProfiles;
     }
 
@@ -65,14 +56,74 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void testHaveUserTrue() throws Exception {
+        when(databaseService.checkUserRegistered(login)).thenReturn(true);
+        assertEquals(true, accountService.haveUser(login));
+        verify(databaseService).checkUserRegistered(login);
+    }
+
+    @Test
+    public void testHaveUserFalse() throws Exception {
+        when(databaseService.checkUserRegistered(login)).thenReturn(false);
+        assertEquals(false, accountService.haveUser(login));
+        verify(databaseService).checkUserRegistered(login);
+    }
+
+    @Test
     public void testCountOfUsers() throws Exception {
-        UserDataSet user1 = userDataSets[0];
-        UserDataSet user2 = userDataSets[1];
-        int before = accountService.getCountOfUsers();
-        accountService.addUser(user1.getLogin(),user1.getPassword(),user1.getEmail());
-        assertEquals(1, accountService.getCountOfUsers() - before);
-        accountService.addUser(user2.getLogin(),user2.getPassword(),user2.getEmail());
-        assertEquals(2, accountService.getCountOfUsers() - before);
+        when(databaseService.countOfUsers()).thenReturn(42l);
+        assertEquals(42l, accountService.getCountOfUsers());
+        verify(databaseService).countOfUsers();
+    }
+
+    @Test
+    public void testAddUserUncorrectLogin() throws Exception {
+        String login = "";
+        assertEquals(false, accountService.addUser(login, password, email));
+        verify(databaseService, never()).addUser(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testAddUserUncorrectPassword() throws Exception {
+        String password = "";
+        assertEquals(false, accountService.addUser(login, password, email));
+        verify(databaseService, never()).addUser(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testAddUserUncorrectEmail() throws Exception {
+        String email = "";
+        assertEquals(false, accountService.addUser(login, password, email));
+        verify(databaseService, never()).addUser(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testAddUserAlreadyRegistered() throws Exception {
+        when(databaseService.checkUserRegistered(login)).thenReturn(true);
+        assertEquals(false, accountService.addUser(login, password, email));
+        verify(databaseService, never()).addUser(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void testAddUserSuccess() throws Exception {
+        when(databaseService.checkUserRegistered(login)).thenReturn(false);
+        assertEquals(true, accountService.addUser(login, password, email));
+        verify(databaseService).addUser(login, password, email);
+    }
+
+    @Test
+    public void testIsPasswordCorrectTrue() throws Exception {
+        UserDataSet user = userDataSets[0];
+        when(databaseService.getUser(user.getLogin())).thenReturn(user);
+        assertEquals(true, accountService.isPasswordCorrect(user.getLogin(),user.getPassword()));
+    }
+
+    @Test
+    public void testIsPasswordCorrectFalse() throws Exception {
+        UserDataSet user = userDataSets[0];
+        when(databaseService.getUser(user.getLogin())).thenReturn(user);
+        String uncorrectPass= user.getPassword()+"fsdfs";
+        assertEquals(false, accountService.isPasswordCorrect(user.getLogin(),uncorrectPass));
     }
 
     @Test
@@ -86,38 +137,6 @@ public class AccountServiceTest {
         accountService.addSession("476576",userProfiles[1].getLogin());
         assertEquals(2, accountService.getCountOfSessions() - before);
     }
-
-    @Test
-    public void testHaveUser() throws Exception {
-        UserDataSet[] userProfiles = addUsers(2);
-        assertEquals(true, accountService.haveUser(userProfiles[0].getLogin()));
-        assertEquals(true, accountService.haveUser(userProfiles[1].getLogin()));
-    }
-
-    @Test
-    public void testAddUncorrectLoginUser() throws Exception {
-        UserDataSet user1 = new UserDataSet("", "password", "email1");
-        int before = accountService.getCountOfUsers();
-        accountService.addUser(user1.getLogin(),user1.getPassword(),user1.getEmail());
-        assertEquals(0, accountService.getCountOfUsers() - before);
-    }
-
-    @Test
-    public void testAddUncorrectPassUser() throws Exception {
-        UserDataSet user2 = new UserDataSet("sdgsdfhgsd", "", "email2");
-        int before = accountService.getCountOfUsers();
-        accountService.addUser(user2.getLogin(),user2.getPassword(),user2.getEmail());
-        assertEquals(0, accountService.getCountOfUsers() - before);
-    }
-
-    @Test
-    public void testAddUncorrectEmailUser() throws Exception {
-        UserDataSet user3 = new UserDataSet("sadgdfnb", "pass", "");
-        int before = accountService.getCountOfUsers();
-        accountService.addUser(user3.getLogin(),user3.getPassword(),user3.getEmail());
-        assertEquals(0, accountService.getCountOfUsers() - before);
-    }
-
 
     @Test
     public void testAddRegisteredUserSession() throws Exception {
@@ -175,19 +194,6 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testCorrectPassword() throws Exception {
-        UserDataSet[] userProfiles = addUsers(1);
-        assertEquals(true, accountService.isPasswordCorrect(userProfiles[0].getLogin(),userProfiles[0].getPassword()));
-    }
-
-    @Test
-    public void testUnCorrectPassword() throws Exception {
-        UserDataSet[] userProfiles = addUsers(1);
-        String uncorrectPass= userProfiles[0].getPassword()+"fsdfs";
-        assertEquals(false, accountService.isPasswordCorrect(userProfiles[0].getLogin(),uncorrectPass));
-    }
-
-    @Test
     public void testGetUserEmailByCorrectSessionId() throws Exception {
         UserDataSet[] userProfiles = addUsers(2);
         Integer[] sessions = addSessions(userProfiles, 2);
@@ -218,4 +224,5 @@ public class AccountServiceTest {
         String uncorrectSessionId = sessions[0].toString()+"123";
         assertEquals(null,accountService.getUserLoginBySessionId(uncorrectSessionId));
     }
+
 }

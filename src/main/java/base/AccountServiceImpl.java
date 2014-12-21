@@ -40,8 +40,8 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
-    public int getCountOfUsers() {
-        return users.size();
+    public long getCountOfUsers() {
+        return new Long(users.size());
     }
 
     public int getCountOfSessions() {

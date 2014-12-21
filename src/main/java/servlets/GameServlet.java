@@ -16,12 +16,12 @@ import java.util.Map;
  */
 public class GameServlet extends HttpServlet {
     private AccountService accountService;
-    private int port;
+    private String port;
 
 
-    public GameServlet(AccountService accountService, int port) {
+    public GameServlet(AccountService accountService, Integer port) {
         this.accountService = accountService;
-        this.port = port;
+        this.port = port.toString();
     }
 
     public void doGet(HttpServletRequest request,
@@ -29,7 +29,7 @@ public class GameServlet extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         // Получение логина активного пользователя
         String sessionId = request.getSession().getId();
-        String login = null;
+        String login;
         if (accountService.haveSession(sessionId)) {
             login = accountService.getUserLoginBySessionId(sessionId);
             pageVariables.put("myName", login);

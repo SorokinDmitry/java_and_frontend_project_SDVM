@@ -15,8 +15,6 @@ public class AccountServiceDBImpl implements AccountService {
 
     public AccountServiceDBImpl(DatabaseService databaseService) {
         this.databaseService = databaseService;
-        addUser("admin","admin","admin@admin.ru");
-        addUser("dmitr","123","sorokin.dmitr@yandex.ru");
     }
 
     private boolean checkLogin(String login) {
@@ -30,7 +28,7 @@ public class AccountServiceDBImpl implements AccountService {
 
     public boolean addUser(String login, String password, String email) {
         if ( login.isEmpty() || password.isEmpty() || email.isEmpty()
-                || databaseService.checkUserRegistered(login)) {
+                || haveUser(login)) {
             return false;
         } else {
             databaseService.addUser(login, password, email);
@@ -56,7 +54,7 @@ public class AccountServiceDBImpl implements AccountService {
         return true;
     }
 
-    public int getCountOfUsers() {
+    public long getCountOfUsers() {
         return (int)databaseService.countOfUsers();
     }
 

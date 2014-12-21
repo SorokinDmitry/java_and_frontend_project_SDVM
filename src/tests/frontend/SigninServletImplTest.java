@@ -53,10 +53,24 @@ public class SigninServletImplTest extends AssertResponse {
     }
 
     @Test
-    public void testDoPostSuccess() throws Exception {
+    public void testDoPostSuccessHaveSessionFalse() throws Exception {
+        when(accountService.haveSession(sessionId)).thenReturn(false);
         when(accountService.haveUser(login)).thenReturn(true);
         when(accountService.isPasswordCorrect(login, password)).thenReturn(true);
         signinServlet.doPost(request, response);
+        verify(accountService, never()).deleteSession(sessionId);
+        verify(accountService).addSession(sessionId, login);
+        verify(response).setStatus(200);
+        verify(response).sendRedirect("/main");
+    }
+
+    @Test
+    public void testDoPostSuccessHaveSessionTrue() throws Exception {
+        when(accountService.haveSession(sessionId)).thenReturn(true);
+        when(accountService.haveUser(login)).thenReturn(true);
+        when(accountService.isPasswordCorrect(login, password)).thenReturn(true);
+        signinServlet.doPost(request, response);
+        verify(accountService).deleteSession(sessionId);
         verify(accountService).addSession(sessionId, login);
         verify(response).setStatus(200);
         verify(response).sendRedirect("/main");
