@@ -23,5 +23,4 @@ public interface Cell {
 
     Codes isKilled();
     void clearCell();
-    void killShip();
 }

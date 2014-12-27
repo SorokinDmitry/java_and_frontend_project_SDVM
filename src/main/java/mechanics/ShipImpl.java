@@ -11,7 +11,7 @@ public class ShipImpl implements Ship {
     private int xn;
     private int yn;
     private int countDeck;
-    private boolean killed;
+    private int aliveCells;
     private ArrayList<Cell> cells = new ArrayList<>();
 
     public ShipImpl(int x0, int y0, int xn, int yn) {
@@ -30,8 +30,7 @@ public class ShipImpl implements Ship {
         this.y0 = y0;
         this.xn = xn;
         this.yn = yn;
-        calculateCountDeck();
-        this.killed = false;
+        aliveCells = calculateCountDeck();
     }
 
     private int calculateCountDeck() {
@@ -76,15 +75,15 @@ public class ShipImpl implements Ship {
 
 
     public boolean isKilled() {
-        return killed;
-    }
-
-    public void kill() {
-        killed = true;
+        return aliveCells==0;
     }
 
     public void addCell(Cell cell) {
         cells.add(cell);
+    }
+
+    public void hit() {
+        aliveCells--;
     }
 
 }

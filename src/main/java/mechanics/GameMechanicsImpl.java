@@ -50,7 +50,14 @@ public class GameMechanicsImpl implements GameMechanics {
         if (userGame == null)
             return Codes.USER_NOT_FOUND;
         GameSession gameSession = gameSessionsMap.get(userGame);
-        return gameSession.fire(userGame, x, y);
+        Codes status = gameSession.fire(userGame, x, y);
+        String enemy_name = userGame.getEnemyName();
+        UserGame enemyGame = getUserGame(enemy_name);
+        if (status.equals(Codes.GAME_OVER)) {
+            webSocketService.notifyGameOver(userGame, true);
+            webSocketService.notifyGameOver(enemyGame, false);
+        }
+        return status;
     }
 
     public Codes setShips(String emailUser, ArrayList<Ship> ships) {

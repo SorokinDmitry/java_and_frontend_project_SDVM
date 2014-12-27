@@ -10,6 +10,6 @@ public interface Ship {
     int getYn();
     int getCountDeck();
     boolean isKilled();
-    void kill();
     void addCell(Cell cell);
+    void hit();
 }
