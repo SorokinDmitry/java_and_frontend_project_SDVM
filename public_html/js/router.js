@@ -4,8 +4,9 @@ define([
     'views/game',
     'views/login',
 	'views/scoreboard',
-	'views/manager'
-], function(Backbone, mainScreen, gameScreen, loginScreen, scoreboardScreen, viewManager) {
+	'views/manager',
+	'views/joystick'
+], function(Backbone, mainScreen, gameScreen, loginScreen, scoreboardScreen, viewManager, joystickScreen) {
 
     var Router = Backbone.Router.extend({
 	
@@ -13,6 +14,7 @@ define([
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
             'login': 'loginAction',
+            'joystick': 'joystickAction',
             '*default': 'defaultActions'
         },
 		
@@ -33,11 +35,32 @@ define([
         },
 		
         gameAction: function () {
-            gameScreen.show();
+            $.ajax({
+                type: "POST",
+            	url: "/auth/",
+            	statusCode: {
+            	    200: function (response) {
+            			//result = JSON.parse(response.responseText);
+                        //login = result.login;
+                        console.log("SC_OK");
+                        gameScreen.show();
+            	    },
+            		403: function (response) {
+            			//alert(response.status);
+                        console.log("SC_FORBIDDEN");
+                        loginScreen.show();
+            		}
+            	}
+            });
         },
+
         loginAction: function () {
             loginScreen.show();
-        }	
+        },
+
+        joystickAction: function() {
+            joystickScreen.show();
+        }
 		
     });
 	

@@ -17,5 +17,7 @@ public interface WebSocketService {
 
     void notifyStartGame(String user1, String user2);
 
-    void notifyGameOver(UserGame user, boolean win);
+    void notifyReady(String user1, String user2);
+
+    void notifyGameOver(String winner, String loser);
 }

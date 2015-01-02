@@ -17,4 +17,5 @@ public interface GameSession {
     Codes fire(UserGame user, int x, int y);
     Field getField(String user);
     Codes setShips(String user, ArrayList<Ship> ships);
+    boolean isReady();
 }

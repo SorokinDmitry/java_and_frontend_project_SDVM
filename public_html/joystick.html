@@ -1,0 +1,69 @@
+
+<html>
+<head>
+    <script src="/js/lib/jquery.js"></script>
+    <script src="/js/lib/jquery.mobile-1.4.5.js"></script>
+    <link rel="stylesheet" href="/css/joystick.css" />
+</head>
+
+
+<body>
+
+    <h1 id="orientation">orientationchange Not Supported on this Device.</h1>
+
+    <script>
+        // Bind an event to window.orientationchange that, when the device is turned,
+        // gets the orientation and displays it to on screen.
+        $(window).on("orientationchange", function(event) {
+            $( "#orientation" ).text( "This device is in " + event.orientation + " mode!" );
+        });
+
+        // You can also manually force this event to fire.
+        $( window ).orientationchange();
+    </script>
+
+
+    <div id="block">block</div>
+
+    <script>
+
+    // Обрабатывае событие загрузки документа
+    window.addEventListener('DOMContentLoaded', function() {    
+      
+        var block = document.getElementById('block');
+
+        block.addEventListener('touchstart', function(event) {
+            event.preventDefault();
+            block.className = 'touchstart';
+            block.innerHTML = 'touchstart';
+        }, false);
+
+        block.addEventListener('touchmove', function(event) {
+            var x = event.touches[0].pageX;
+            var y = event.touches[0].pageY;
+            var block = document.getElementById('block');
+            //console.log($(document).width());
+            //console.log(block.clientWidth)
+            //console.log($(document).width() - block.clientWidth);
+            console.log("x=%d, y=%d SeaBattle1111", x, y);
+            console.log(block.style);
+            if (x < $(document).width() && x >= 0)
+                block.style.left = x - 100;
+            if (y < $(document).height() && y >= 0)
+                block.style.top = y - 50;
+            block.innerHTML = 'touchmove';
+        }, false);
+
+        block.addEventListener('touchend', function(event) {
+            event.preventDefault();
+            block.className = '';
+            block.innerHTML = 'touchend';
+        }, false);
+
+    }, false);
+    </script>
+
+
+
+</body>
+</html>

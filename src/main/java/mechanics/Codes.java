@@ -8,7 +8,7 @@ public enum Codes {
     ERROR,                  // При ошибке размещения кораблей
     EMPTY,                  // Мимо
     DECK,                   // Попал
-    KILLED,
+    KILLED,                 // Убит
     IS_FIRED,               // Возможно, если в ячейку уже стреляли
     CELL_DOES_NOT_EXIST,    // Возможно при выходе за пределы поля
     USER_PLAYS,

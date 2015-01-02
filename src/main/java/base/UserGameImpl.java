@@ -15,11 +15,13 @@ public class UserGameImpl implements UserGame{
     private Field enemyField;
     private ArrayList<Ship> myShips;
     private ArrayList<Ship> enemyShips;
+    private boolean ready;
 
 
     public UserGameImpl(String myName) {
         this.myName = myName;
         this.enemyName = null;
+        ready = false;
     }
 
     public String getMyName() {
@@ -36,6 +38,10 @@ public class UserGameImpl implements UserGame{
 
     public Field getMyField() {
         return myField;
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 
     public void setMyField(Field myField) {
@@ -66,4 +72,7 @@ public class UserGameImpl implements UserGame{
         enemyShips = ships;
     }
 
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
 }

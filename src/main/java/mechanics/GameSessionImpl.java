@@ -87,6 +87,7 @@ public class GameSessionImpl implements GameSession {
 
         if (userGame == user1) {
             fieldUser1 = field;
+            user1.setReady(true);
             user1.setMyField(fieldUser1);
             user1.setMyShips(ships);
             user2.setEnemyField(fieldUser1);
@@ -94,6 +95,7 @@ public class GameSessionImpl implements GameSession {
         }
         else {
             fieldUser2 = field;
+            user2.setReady(true);
             user1.setEnemyField(fieldUser2);
             user1.setEnemyShips(ships);
             user2.setMyField(fieldUser2);
@@ -176,4 +178,8 @@ public class GameSessionImpl implements GameSession {
 
         return field.getNumberNotFiredDecks();
     }*/
+
+    public boolean isReady(){
+        return user1.isReady() && user2.isReady();
+    }
 }

@@ -13,6 +13,7 @@ public interface UserGame {
     String getEnemyName();
     Field getMyField();
     Field getEnemyField();
+    boolean isReady();
     Codes fireMyField(int x, int y);
     Codes fireEnemyField(int x, int y);
     void setMyField(Field myField);
@@ -20,4 +21,5 @@ public interface UserGame {
     void setEnemyName(String enemyName);
     void setMyShips(ArrayList<Ship> ships);
     void setEnemyShips(ArrayList<Ship> ships);
+    void setReady(boolean ready);
 }

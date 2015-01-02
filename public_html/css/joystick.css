@@ -1,0 +1,33 @@
+#block {
+    background: #ddd;
+    color: #fff;
+    border-radius: 35px;
+    float: left;
+    padding: 50px;
+    position: absolute;
+    width: 70px;
+    text-align: center;
+    margin: 0px;
+}
+
+#block.touchstart {
+    background: #666;
+}
+
+#orientation {
+    font-weight: bold;
+    padding: 10px;
+}
+
+
+@media screen and (orientation:portrait) {
+    .media:before{
+        content: "Media Queries: This device is in Portrait mode";
+    }
+}
+@media screen and (orientation:landscape) {
+    .media:before{
+        content: "Media Queries: This device is in Landscape mode";
+    }
+
+}

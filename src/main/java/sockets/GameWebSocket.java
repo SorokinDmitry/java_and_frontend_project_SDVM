@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 
@@ -48,11 +49,21 @@ public class GameWebSocket {
         }
     }
 
-    public void gameOver(UserGame user, boolean win) {
+    public void ready() {
+        try {
+            JSONObject jsonStart = new JSONObject();
+            jsonStart.put("status", "ready");
+            session.getRemote().sendString(jsonStart.toJSONString());
+        } catch (Exception e) {
+            System.out.print(e.toString());
+        }
+    }
+
+    public void gameOver(String winner) {
         try {
             JSONObject json = new JSONObject();
             json.put("status", "finish");
-            json.put("win", win);
+            json.put("winner", winner);
             session.getRemote().sendString(json.toJSONString());
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -65,48 +76,38 @@ public class GameWebSocket {
         System.out.println(data);
 
         if ( jsonObject.getString("action").equals("setShips")) {
-            Ship ship = new ShipImpl(0,0,0,1);
+            JSONArray jsonShips = jsonObject.getJSONArray("ships");
             ArrayList<Ship> ships = new ArrayList<>();
-            ships.add(ship);
-            System.out.println(gameMechanics.setShips(myName, ships));
+            for (int i = 0; i < jsonShips.length(); ++i ) {
+                org.json.JSONObject jsonShip = jsonShips.getJSONObject(i);
+                Ship ship = new ShipImpl(jsonShip.getInt("x"), jsonShip.getInt("y"), jsonShip.getInt("x")+jsonShip.getInt("width")-1, jsonShip.getInt("y")+jsonShip.getInt("height")-1);
+                ships.add(ship);
+            }
+            Codes result = gameMechanics.setShips(myName, ships);
+            System.out.println(result);
+            try {
+                JSONObject json = new JSONObject();
+                json.put("status", result.toString());
+                session.getRemote().sendString(json.toJSONString());
+            } catch (Exception e) {
+                System.out.print(e.toString());
+            }
         }
 
         if ( jsonObject.getString("action").equals("fire")) {
             Codes result = gameMechanics.fire(myName,jsonObject.getInt("x")-1,jsonObject.getInt("y")-1);
             System.out.println(result);
-            if ( result.equals(Codes.DECK) ) {
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("status", "DECK");
-                    json.put("x", jsonObject.getInt("x"));
-                    json.put("y", jsonObject.getInt("y"));
-                    session.getRemote().sendString(json.toJSONString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+            try {
+                JSONObject json = new JSONObject();
+                json.put("status", result.toString());
+                json.put("x", jsonObject.getInt("x"));
+                json.put("y", jsonObject.getInt("y"));
+                session.getRemote().sendString(json.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            if ( result.equals(Codes.GAME_OVER) ) {
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("status", "GAME_OVER");
-                    json.put("x", jsonObject.getInt("x"));
-                    json.put("y", jsonObject.getInt("y"));
-                    session.getRemote().sendString(json.toJSONString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if ( result.equals(Codes.EMPTY) ) {
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("status", "EMPTY");
-                    json.put("x", jsonObject.getInt("x"));
-                    json.put("y", jsonObject.getInt("y"));
-                    session.getRemote().sendString(json.toJSONString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
         }
     }
 

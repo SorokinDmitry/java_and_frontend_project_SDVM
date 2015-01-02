@@ -43,6 +43,10 @@ public class FieldImpl implements Field {
         if (countDeck < 0)
             return false;
 
+        if (ship.getX0() < 0 || ship.getXn() > rows || ship.getX0() < 0 || ship.getYn() > cols) {
+            return false;
+        }
+
         for(int i = ship.getY0(); i <= ship.getYn(); ++i) {
             for (int j = ship.getX0(); j <= ship.getXn(); ++j) {
                 if (!field[i][j].isAvailable())
@@ -75,9 +79,6 @@ public class FieldImpl implements Field {
 
         if (status == Codes.DECK || status == Codes.KILLED) {
             numberNotFiredDecks--;
-            if (status == Codes.KILLED)
-                field[x][y].killShip();
-
             if (getNumberNotFiredDecks() == 0)
                 status = Codes.GAME_OVER;
         }

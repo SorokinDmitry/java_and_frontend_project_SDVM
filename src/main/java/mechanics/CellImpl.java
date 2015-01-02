@@ -63,15 +63,16 @@ public class CellImpl implements Cell {
     }
 
     public Codes isKilled() {
-        if (fired == true) {
+        if (fired) {
             return Codes.IS_FIRED;
         }
 
-        if (deck == true) {
+        if (deck) {
+            ship.hit();
             if (ship.isKilled()) {
                 return Codes.KILLED;
             }
-            else return Codes.DECK;
+            return Codes.DECK;
         }
 
         return Codes.EMPTY;
@@ -83,8 +84,6 @@ public class CellImpl implements Cell {
         available = true;
         ship = null;
     }
-    public void killShip() {
-        if (ship != null) ship.kill();
-    }
+
 
 }

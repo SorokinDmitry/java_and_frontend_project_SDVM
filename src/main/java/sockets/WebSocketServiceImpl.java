@@ -38,8 +38,18 @@ public class WebSocketServiceImpl implements WebSocketService {
         gameWebSocket2.startGame(user1);
     }
 
+    public void notifyReady(String user1, String user2) {
+        GameWebSocket gameWebSocket1 = userSockets.get(user1);
+        gameWebSocket1.ready();
+        GameWebSocket gameWebSocket2 = userSockets.get(user2);
+        gameWebSocket2.ready();
+    }
+
     @Override
-    public void notifyGameOver(UserGame user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(user, win);
+    public void notifyGameOver(String winner, String loser) {
+        GameWebSocket gameWebSocket1 = userSockets.get(winner);
+        gameWebSocket1.gameOver(winner);
+        GameWebSocket gameWebSocket2 = userSockets.get(loser);
+        gameWebSocket2.gameOver(winner);
     }
 }

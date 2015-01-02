@@ -8,7 +8,8 @@ import sockets.WebSocketService;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by Vadim on 29.11.14.
@@ -63,8 +64,8 @@ public class GameMechanicsTest {
         return ships;
     }
 
-    public void setShips(String emailUser, ArrayList<Ship> ships) {
-        gameMechanics.setShips(emailUser, ships);
+    public Codes setShips(String emailUser, ArrayList<Ship> ships) {
+        return gameMechanics.setShips(emailUser, ships);
     }
 
 
@@ -143,6 +144,59 @@ public class GameMechanicsTest {
             }
         }
         assertEquals(Codes.GAME_OVER, status);
+    }
+
+    @Test
+    public void testWinner() {
+        ArrayList<Ship> ships = createShips();
+        setShips(first, ships);
+        setShips(second, ships);
+
+        Codes status = Codes.EMPTY;
+        for (int i = 0; (i < 10) && (status != Codes.GAME_OVER); ++i) {
+            for (int j = 0; (j < 10) && (status != Codes.GAME_OVER); ++j) {
+                status = gameMechanics.fire(first, i, j);
+            }
+        }
+        //UserGame user1 = gameMechanics.getUserGame(first);
+        //UserGame user2 = gameMechanics.getUserGame(second);
+        verify(webSocketService).notifyGameOver(first, second);
+    }
+
+    @Test
+    public void testKillShip() {
+        ArrayList<Ship> ships = createShips();
+        setShips(first, ships);
+        setShips(second, ships);
+
+        Codes status = Codes.EMPTY;
+        Ship ship = ships.get(0);
+        int x0 =  ship.getX0();
+        int xN = ship.getXn();
+        int y0 = ship.getY0();
+        int yN = ship.getYn();
+        int cnt = ship.getCountDeck();
+        for (int i = x0; i <= xN; ++i) {
+            for (int j = y0; j <= yN; ++j) {
+                status = gameMechanics.fire(first, j, i);
+                cnt--;
+                if(cnt > 0) {
+                    assertEquals(Codes.DECK, status);
+                    assertNotEquals(Codes.KILLED, status);
+                }
+            }
+        }
+        assertEquals(Codes.KILLED, status);
+    }
+
+    @Test
+    public void testPutShipOutSide() {
+        ArrayList<Ship> ships = createShips();
+        Ship ship = new ShipImpl(500, 500, 502, 500);
+        ships.set(0, ship);
+        Codes status = setShips(first, ships);
+
+        assertEquals(Codes.ERROR, status);
     }
 
 }

@@ -35,7 +35,12 @@ public class GameMechanicsImpl implements GameMechanics {
     }*/
 
     public boolean addUser(String user) {
+        if ( user == null )
+            return false;
+
         if (waiter != null) {
+            if ( waiter.equals(user) )
+                return false;
             startGame(user);
             waiter = null;
         } else {
@@ -50,14 +55,24 @@ public class GameMechanicsImpl implements GameMechanics {
         if (userGame == null)
             return Codes.USER_NOT_FOUND;
         GameSession gameSession = gameSessionsMap.get(userGame);
-        return gameSession.fire(userGame, x, y);
+        Codes status = gameSession.fire(userGame, x, y);
+        String enemy_name = userGame.getEnemyName();
+        //UserGame enemyGame = getUserGame(enemy_name);
+        if (status.equals(Codes.GAME_OVER)) {
+            webSocketService.notifyGameOver(myEmail, enemy_name);
+        }
+        return status;
     }
 
     public Codes setShips(String emailUser, ArrayList<Ship> ships) {
         UserGame userGame = userGameMap.get(emailUser);
         // Вот тут можно урезать
         GameSession gameSession = gameSessionsMap.get(userGame);
-        return gameSession.setShips(emailUser, ships);
+        Codes result = gameSession.setShips(emailUser, ships);
+        if ( gameSession.isReady() ) {
+            webSocketService.notifyReady(gameSession.getFirst().getMyName(), gameSession.getSecond().getMyName());
+        }
+        return result;
     }
 
     private void startGame(String user1) {

@@ -4,7 +4,8 @@ require.config({								// конфигурация require
     paths: { 									// здесь то, что не лежит в baseUrl + им заданы псевдонимы
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        jquerymobile: "lib/jquery.mobile-1.4.5"
     },
     shim: {										// сторонние модули
         'backbone': {

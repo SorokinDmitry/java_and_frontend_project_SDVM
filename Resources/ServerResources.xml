@@ -1,4 +1,6 @@
 <class type='resources.ServerResources'>
-	<port>8090</port>
+	<host>127.0.0.1</host>
+	<port>8050</port>
 	<db_name>EPICGAME_TP</db_name>
+    <idleTime>600000</idleTime>
 </class>

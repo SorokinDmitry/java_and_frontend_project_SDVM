@@ -4,6 +4,7 @@
     <title>SeaBattle</title>
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/game.css" />
+    <link rel="stylesheet" href="/css/joystick.css" />
 </head>
 <body>
 <style type="text/css">
@@ -50,10 +51,16 @@
 
 
 
-<script src="js/build.min.js"></script>
-<script>
-    require(['main'], function(){
-        console.log('hello');
-    });
+<script data-main="js/main.js" src="js/lib/require.js"></script>
+<script src="//localhost:35729/livereload.js"></script>
+
+ <script type="text/javascript">
+    var isMobile = function() {
+        return navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i);
+    };
+    if(isMobile()) {
+        window.location = '#joystick';
+    }
 </script>
+
 </body></html>
